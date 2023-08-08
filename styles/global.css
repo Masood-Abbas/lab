@@ -1,0 +1,251 @@
+* {
+    padding: 0;
+    margin: 0;
+  }
+  
+  html,
+  body {
+    min-height: 100%;
+    overflow-y: auto;
+  }
+  
+  #__next {
+    height: 100%;
+  }
+  
+  code {
+    font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+      'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+    padding: 0.1rem 0.4rem;
+    font-size: 90%;
+    color: #d400ff;
+    border-radius: 0.1335rem;
+  }
+  code:not([class*='language-']):before,
+  code:not([class*='language-']):after {
+    content: '`';
+  }
+  code[class*='language-'] {
+    padding: 0;
+  }
+  .login-page {
+  
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+  }
+  
+  .login-side-image{
+    display: none !important;
+  }
+  
+  @media (min-width: 992px) {
+  
+    .login-side-image{
+      background-image: url('/images/pages/setPassword.jpg');
+      background-repeat: no-repeat;
+      display: grid !important;
+      background-position: center;
+      width: 100%;
+      height: 100vh;
+    }
+  }
+  
+  .div-center{
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper,
+  .css-lo8y8e-MuiPaper-root-MuiAppBar-root {
+    box-shadow: none !important;
+  }
+  
+  .main-layout {
+    background: #c6c7ca !important;
+    min-height: 100vh !important;
+    height: 100% !important;
+  }
+  
+  .css-1v5u2yv {
+    padding: 20px !important;
+  }
+  .main-content {
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 70px;
+    padding: 55px 20px;
+  }
+  
+  .css-cveggr-MuiListItemIcon-root {
+    min-width: 32px !important;
+  }
+  
+  .btn-primary {
+    background-color: #146562ff !important;
+  }
+  
+  
+  .rct-tree-item-button:hover {
+    background-color: #00b5ad !important;
+    color: #fff !important;
+  }
+  .rct-tree-item-arrow {
+    color: #fff !important;
+  }
+  
+  .css-1e2bxag-MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+  .css-1e2bxag-MuiDataGrid-root .MuiDataGrid-cell:focus {
+    outline: none !important;
+  }
+  
+  .active {
+    height: 40px;
+    transition: step-end;
+    margin-right: 5px !important;
+    color: #fff !important;
+    border-left: 4px solid #0c645b !important;
+    border-top-right-radius: 40px !important;
+    border-bottom-right-radius: 40px !important;
+    background: rgb(20, 101, 98) !important;
+    background: linear-gradient(90deg, rgb(8, 222, 200), rgb(24, 187, 170)) !important;
+  }
+  
+  .active-icon {
+    color: #fff !important;
+  }
+  .inactive-icon {
+    color: #28cbc5 !important;
+  }
+  .css-1f8bwsm,
+  .css-cveggr-MuiListItemIcon-root {
+    min-width: 32px !important;
+  }
+  .collapse-menu {
+    transition: step-end;
+    background: rgb(12, 126, 121) !important;
+    background: linear-gradient(90deg, #028885, rgb(17 101 84)) !important;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-left: 5px;
+  }
+  
+  
+  .collapse-bg {
+    background: rgb(20, 101, 98) !important;
+    background: linear-gradient(90deg, rgb(8, 190, 172), rgb(24, 187, 170)) !important;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  
+  .wrap-text{
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .css-1c1e22g-MuiPaper-root-MuiAppBar-root{
+    box-shadow: 1px 1px 1px rgb(202, 213, 211) !important;
+  }
+  
+  
+  .css-4pdmu4-MuiBreadcrumbs-ol{
+    overflow-x: scroll !important;
+    width: max-content !important;
+  }
+  
+  .text-center{
+    text-align: center;
+  }
+  .data-picker {
+    width: 100%;
+    padding-top: 11.5px;
+    padding-bottom: 11.5px;
+    border-radius: 6px;
+    padding-left: 7px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .table-review{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table thead tr th {
+    padding: 5px;
+    text-align: left;
+    border: 1.5px solid black;
+    border-collapse: collapse;
+  }
+  table tbody tr td {
+    padding: 5px;
+    text-align: left;
+    border: 1.5px solid black;
+    border-collapse: collapse;
+  }
+  
+  /*.css-1t1j96h-MuiPaper-root-MuiDialog-paper {*/
+  /*  min-width: 500px !important;*/
+  /*}*/
+  
+  .select-all-checkbox{
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .css-1wc848c-MuiFormHelperText-root{
+    margin-left: 0 !important;
+  
+  }
+  .page-not-found-image-container{
+    width:100%;
+    height: 82vh;
+    background: url('/images/pages/PageNotFound.jpg') no-repeat center;
+    background-size: cover;
+    padding: 10px !important;
+  }
+  .cursor{
+    cursor: pointer;
+  }
+  
+  .set-password-container{
+    width:100%;
+    height: 90vh;
+    background: url('/images/pages/setPassword.jpg') no-repeat;
+    background-size: cover;
+  }
+  .btn-404-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .hide-pagination .MuiDataGrid-footerContainer {
+    display: none;
+  }
+  
+  .css-wjh20t-MuiPagination-ul {
+   justify-content: center;
+  }
+  .images-box{
+    width: 200px;
+    height: 200px;
+    border-radius:4px ;
+    border:1px dotted gray;
+  }
+  
+  .Home-Page-container{
+    background: url('/images/pages/home2.webp');
+    width: 100%;
+    height: 70vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
