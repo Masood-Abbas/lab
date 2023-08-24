@@ -39,37 +39,7 @@ const ContectModal = ({open,handleClose}) => {
   }
 
 
-
-  const onFinish = (values) => {
-   
-    
-    emailjs
-      .send(
-        "service_cpts2i9","template_mdw6roo",
-        templateParams,
-        "23Wo1yMMyQe3ZXka0"
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-          navigate("/request-call");
-        },
-        (error) => {
-          message.error("Something went wronge please try again!");
-          console.log("FAILED...", error);
-        }
-      );
-  };
-
-
-
-
-
-
   const onSubmit = values => {
-    console.log(values)
-  
-
     const templateParams = {
       email: values?.email,
       name: values?.name,
@@ -80,13 +50,14 @@ const ContectModal = ({open,handleClose}) => {
 
     emailjs
     .send(
-      "service_wp7x2na","template_8nsi45e",
+      "service_wp7x2na","template_jp6nwoi",
       templateParams,
       "xJ5mERG7Ygbegv8F-"
     )
     .then(
       (response) => {
         toast.success(response.text)
+        handleClose()
         console.log("SUCCESS!", response.status, response.text);
       },
       (error) => {        

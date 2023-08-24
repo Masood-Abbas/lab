@@ -38,9 +38,16 @@ export const useGetUser = ({ onSuccess, onError, params }) => {
 
 // ** API for Add new User
 
-const addUser = data => api.post('/auth/register', data)
+const addUser = data =>axios.post('http://localhost:5000/register',data)
+.then(response => {
+  console.log('Response:', response.data);
+})
+.catch(error => {
+  console.error('Error:', error.message);
+});
 
 export const useAddUser = () => {
+  console.log('in')
   return useMutation('addUser', addUser)
 }
 
