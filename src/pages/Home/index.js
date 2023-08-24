@@ -193,14 +193,29 @@ const Home = () => {
       </Typography>
       <Typography variant="h5" component="h1" align="center">
       scientific solutions. Your inquiries are important to us.
-      </Typography>     
-
+      </Typography>
     </div>
+
     <div style={{display:'flex',justifyContent:'center',paddingTop:30}}>
     <Button variant="contained" color="primary" sx={{color:'white'}} onClick={handleOpenModal}>
         Get in Touch
       </Button>
     </div>
+
+    <Divider sx={{pt:3}}/>
+
+    <div className={contectHeading}>
+      <Typography variant="h5" component="h1" align="center">
+      Our goal is at the heart of all that we do. We make our clients
+      </Typography>
+      <Typography variant="h5" component="h1" align="center">
+      happiness our sole priority.
+      </Typography>
+    </div>
+
+
+
+
 
     {open &&
     <ContectModal

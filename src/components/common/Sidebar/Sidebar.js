@@ -77,6 +77,31 @@ const Sidebar = props => {
         </Link>
       </List>
       <Divider />
+      <List>
+        <Link href='/users' passHref>
+          <ListItem disablePadding className='truncate-text'>
+            <ListItemButton className={router?.pathname === '/users' ? 'active' : ''} sx={styles}>
+              <ListItemIcon>
+                <SiHomebridge className={router?.pathname === '/users' ? 'active-icon' : 'inactive-icon'} />
+              </ListItemIcon>
+              <ListItemText primary='Users' />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
+
+      <List>
+        <Link href='/title' passHref>
+          <ListItem disablePadding className='truncate-text'>
+            <ListItemButton className={router?.pathname === '/title' ? 'active' : ''} sx={styles}>
+              <ListItemIcon>
+                <SiHomebridge className={router?.pathname === '/title' ? 'active-icon' : 'inactive-icon'} />
+              </ListItemIcon>
+              <ListItemText primary='Title' />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
         
 
       
