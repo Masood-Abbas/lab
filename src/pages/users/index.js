@@ -38,10 +38,6 @@ const Users = () => {
     <div component='main' className='main-content' style={{fontSize:30,paddingTop:'30px'}}>
       <Table row={users}  />
     </div>
-
- 
-   
-   
   )
 }
 
