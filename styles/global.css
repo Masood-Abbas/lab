@@ -101,7 +101,10 @@
   .css-1e2bxag-MuiDataGrid-root .MuiDataGrid-cell:focus {
     outline: none !important;
   }
-  
+  a {
+    text-decoration: none;
+    color: #00b5ad;
+  }
   .active {
     height: 40px;
     transition: step-end;
