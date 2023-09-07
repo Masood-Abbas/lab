@@ -22,7 +22,7 @@ import axios from 'axios'
 
 const AddDesignation = ({ handleClose, open,  }) => {
   
- 
+
 
   const {
     
@@ -65,7 +65,7 @@ const AddDesignation = ({ handleClose, open,  }) => {
       <BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open}>
         <BootstrapDialogTitle id='customized-dialog-title' onClose={handleClose}>
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-             Create New Title
+            Create New Title
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -99,7 +99,7 @@ const AddDesignation = ({ handleClose, open,  }) => {
                   className='btn-primary'
                   sx={{ py: '0.55rem', px: '1.5rem', mt: '1rem', color: '#fff' }}
                 >
-                   Save
+                  Save
                 </LoadingButton>
               </Box>
             </Box>
@@ -107,7 +107,6 @@ const AddDesignation = ({ handleClose, open,  }) => {
         </DialogContent>
       </BootstrapDialog>
 
-   
     </div>
   )
 }

@@ -14,7 +14,7 @@ export const columns = ({ dispatch, }) => {
 
   const handleDeleteTitleModal =(row)=>{
     dispatch(setTitleRowSelected(row))
-       dispatch(setDeleteTitleModal(true))
+    dispatch(setDeleteTitleModal(true))
   }
 
   return [

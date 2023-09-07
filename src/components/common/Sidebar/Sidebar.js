@@ -102,6 +102,19 @@ const Sidebar = props => {
           </ListItem>
         </Link>
       </List>
+      
+      <List>
+        <Link href='/instruments' passHref>
+          <ListItem disablePadding className='truncate-text'>
+            <ListItemButton className={router?.pathname === '/title' ? 'active' : ''} sx={styles}>
+              <ListItemIcon>
+                <SiHomebridge className={router?.pathname === '/title' ? 'active-icon' : 'inactive-icon'} />
+              </ListItemIcon>
+              <ListItemText primary='Instruments' />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
         
 
       
