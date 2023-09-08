@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query'
 import api from '@/utils/axios'
-
+import axios from 'axios'
 // ** API for Designation listing
 
 const getTitle = params => api.get(`/designation?${params?.name ? `name=${params?.name}` : ''}
@@ -27,8 +27,10 @@ export const useCreateDesignation = () => {
 
 // ** API for update Designation
 
-const updateTitle = (params, data) => api.patch(`/designation/${params}`, data)
+const updateTitle = (params, data) =>{
 
+ 
+}
 export const useUpdateTitle = params => {
   return useMutation(['updateDesignation', params], data => updateTitle(params, data))
 }

@@ -1,14 +1,13 @@
 import moment from 'moment'
 import Button from '@mui/material/Button'
-import { setTitleRowSelected ,setDeleteTitleModal} from '@/store/title/titleSlice'
+import { setTitleRowSelected ,setDeleteTitleModal,setTitleModal} from '@/store/title/titleSlice'
 import { BiEditAlt } from 'react-icons/bi'
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip'
 
-
 export const columns = ({ dispatch, }) => {
   const handleSelectRow = ({ row }) => {
-    handleTitleModalOpen()
+  dispatch(setTitleModal(true))
     dispatch(setTitleRowSelected(row))
   }
 

@@ -6,6 +6,7 @@ import Table from '@/components/Title/TitleTable/index'
 import Box from '@mui/material/Box'
 import TitleActions from '@/components/Title/TitleActions/index'
 import { useEffect, useMemo, useState } from 'react'
+
 // import { useDebounce } from 'ahooks'
 // import { FileOperationsEnum } from '@/utils/constants'
 // import { checkUserAssignPermissions } from '@/utils/utils'
@@ -15,6 +16,7 @@ import axios from "axios"
 const Titles = () => {
   const dispatch = useDispatch()
   const { titles ,titleModal,deleteTitleModal,titleRowSelected} = useSelector(state => state.title)
+ 
 
   useEffect(() => {
   axios.get('http://localhost:5000/titles')

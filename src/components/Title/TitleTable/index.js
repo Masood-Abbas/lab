@@ -2,13 +2,14 @@ import { useState ,useEffect} from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { columns } from '@/components/Title/TitleTable/columns'
 import { useSelector } from 'react-redux'
-import { setTitleModal ,setPage ,setDeleteTitleModal} from '@/store/title/titleSlice'
+import { setTitleModal ,setPage,setTitleRowSelected ,setDeleteTitleModal} from '@/store/title/titleSlice'
 import TableEmpty from '@/components/common/TableEmpty'
 import AddDesignation from './AddDesignation'
 import DeleteTitleDesignation from './AddDesignation/DeleteTitleModal'
 
 const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitleModal,titleRowSelected}) => {
   
+ 
 
 
   const [sortModel, setSortModel] = useState([
@@ -21,6 +22,7 @@ const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitl
 
   const handleTitleModalClose = () => {
     dispatch(setTitleModal(false))
+    dispatch(setTitleRowSelected({}))
   }
 
   return (
@@ -42,7 +44,7 @@ const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitl
           className="hide-pagination"  
         />
       </div>
-      {titleModal && <AddDesignation  open={titleModal} handleClose={handleTitleModalClose}  />}
+      {titleModal && <AddDesignation  open={titleModal} handleClose={handleTitleModalClose} titleRowSelected={titleRowSelected} />}
       { deleteTitleModal&& <DeleteTitleDesignation open ={deleteTitleModal} handleClose={handleCloseDeleteTitleModal} titleRowSelected={titleRowSelected}
       dispatch={dispatch}/>}
     </>

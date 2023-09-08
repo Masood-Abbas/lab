@@ -18,10 +18,12 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { FileOperationsEnum } from '@/utils/constants'
 import { checkUserAssignPermissions } from '@/utils/utils'
+
 import axios from 'axios'
 
-const AddDesignation = ({ handleClose, open,  }) => {
+const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
   
+  const { mutate: mutateUpdateUer, isLoading: updateLoading } = useUpdateTitle(titleRowSelected?.id)
  
 
   const {
@@ -44,6 +46,21 @@ const AddDesignation = ({ handleClose, open,  }) => {
       name:item?.name
     }
   
+    if( titleRowSelected?.id){
+      
+
+      axios.patch(`http://localhost:5000/titles/${titleRowSelected?.id}`,userData)
+      .then(response => {
+          toast.success(response?.data?.message)
+      handleClose()
+        console.log('Response:', response.data);
+      })
+      .catch(error => {
+          toast.error(error?.response?.data?.message)
+      handleClose()
+        console.error('Error:', error.message);
+      });
+    }else{
     axios.post('http://localhost:5000/titles',userData)
     .then(response => {
         toast.success(response?.data?.message)
@@ -55,7 +72,12 @@ const AddDesignation = ({ handleClose, open,  }) => {
     handleClose()
       console.error('Error:', error.message);
     });
+  
     
+
+   
+
+  }
     
   }
 
@@ -65,7 +87,7 @@ const AddDesignation = ({ handleClose, open,  }) => {
       <BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open}>
         <BootstrapDialogTitle id='customized-dialog-title' onClose={handleClose}>
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-             Create New Title
+            {titleRowSelected?.id ? "Update Title" : "Create New Title"}
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
