@@ -51,6 +51,7 @@ const Titles = () => {
            deleteTitleModal={deleteTitleModal}
            handleCloseDeleteTitleModal={handleCloseDeleteTitleModal}
            titleRowSelected={titleRowSelected}
+           openTitleModal={openTitleModal}
             />
         </>
       

@@ -7,7 +7,7 @@ import TableEmpty from '@/components/common/TableEmpty'
 import AddDesignation from './AddDesignation'
 import DeleteTitleDesignation from './AddDesignation/DeleteTitleModal'
 
-const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitleModal,titleRowSelected}) => {
+const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitleModal,titleRowSelected,openTitleModal}) => {
   
 
 
