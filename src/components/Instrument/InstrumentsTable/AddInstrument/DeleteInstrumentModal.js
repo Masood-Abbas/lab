@@ -20,7 +20,7 @@ import axios from 'axios'
 
 
 
-const DeleteInstrumentModal = ({handleClose, open, instrumentRowSelected, dispatch}) => {
+const DeleteInstrumentModal = ({handleClose, open, instrumentRowSelected}) => {
 
    const handleDeleteInstrument = () => {
       axios.delete(`http://localhost:5000/instrument/${instrumentRowSelected?.id}`)

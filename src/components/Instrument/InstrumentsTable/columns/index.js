@@ -3,15 +3,15 @@ import { BiEditAlt } from 'react-icons/bi'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { setInstrumentRowSelected ,setDeleteInstrumentModal} from '@/store/instruments/instrumentsSlice'
 
-export const topcolumn = ({ dispatch }) => {
+export const columns = ({ dispatch ,openInstrumentModal}) => {
    const handleSelectRow = ({ row }) => {
-      handleInstrumentModalOpen()
+      openInstrumentModal(true)
       dispatch(setInstrumentRowSelected(row))
    }
    const handleDeleteInstrumentModal =(row)=>{
       dispatch(setInstrumentRowSelected(row))
       dispatch(setDeleteInstrumentModal(true))
-   }
+   } 
    return[
       {
          key: '1',
@@ -27,8 +27,18 @@ export const topcolumn = ({ dispatch }) => {
       headerName: 'Name',
       minWidth: 150,
          flex: 1,
-         renderCell: ({ }) => {
+         renderCell: ({ row}) => {
             { return <> {row?.name} </>}
+      }
+      },
+      {
+         key: '6',
+      field: 'quantity',
+      headerName: 'Quantity',
+      minWidth: 150,
+         flex: 1,
+         renderCell: ({ row}) => {
+            { return <> {row?.quantity} </>}
       }
       },
       {

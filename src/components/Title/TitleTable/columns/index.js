@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip'
 
 
-export const columns = ({ dispatch, }) => {
+export const columns = ({ dispatch,handleTitleModalOpen }) => {
   const handleSelectRow = ({ row }) => {
     handleTitleModalOpen()
     dispatch(setTitleRowSelected(row))

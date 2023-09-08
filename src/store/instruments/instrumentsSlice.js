@@ -26,6 +26,7 @@ export const instrumentsSlice = createSlice({
       state.instruments = action.payload
     },
     setInstrumentModal: (state, action) => {
+      console.log(action.payload)
       state.instrumentModal = action.payload
     },
     setDeleteInstrumentModal: (state, action) => {

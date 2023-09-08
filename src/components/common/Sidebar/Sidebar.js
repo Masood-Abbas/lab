@@ -104,13 +104,13 @@ const Sidebar = props => {
       </List>
       
       <List>
-        <Link href='/instruments' passHref>
+        <Link href='/instrument' passHref>
           <ListItem disablePadding className='truncate-text'>
-            <ListItemButton className={router?.pathname === '/title' ? 'active' : ''} sx={styles}>
+            <ListItemButton className={router?.pathname === '/instrument' ? 'active' : ''} sx={styles}>
               <ListItemIcon>
-                <SiHomebridge className={router?.pathname === '/title' ? 'active-icon' : 'inactive-icon'} />
+                <SiHomebridge className={router?.pathname === '/instrument' ? 'active-icon' : 'inactive-icon'} />
               </ListItemIcon>
-              <ListItemText primary='Instruments' />
+              <ListItemText primary='Instrument' />
             </ListItemButton>
           </ListItem>
         </Link>

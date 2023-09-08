@@ -1,26 +1,47 @@
 import Button from '@mui/material/Button'
+import { instrumentSchema } from '@/schema/instrumentSchema'
 import DialogContent from '@mui/material/DialogContent'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { Box, TextField, Typography } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { useQueryClient } from 'react-query'
 import { BootstrapDialog, BootstrapDialogTitle } from '@/components/common/DialogTitle/DialogTitle'
-import { instrumentSchema } from '@/schema/instrumentSchema'
+import { titleSchema } from '@/schema/titleSchema'
+import { useCreateDesignation, useUpdateTitle } from '@/api/titleApi'
+import { setTitleRowSelected, setSubmissionData } from '@/store/title/titleSlice'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import { FileOperationsEnum } from '@/utils/constants'
+import { checkUserAssignPermissions } from '@/utils/utils'
 import axios from 'axios'
+import { useEffect } from 'react'
 
-const AddInstrument = ({ handleClose, open, }) => {
+const AddInstrument = ({ handleClose, open,instrumentRowSelected }) => {
 
    const {
       register,
       handleSubmit,
+      setValue,
       formState: { errors }
    } = useForm({
       defaultValues: {
          name: null,
-         quantity: 0
+         quantity: null
       },
       resolver: yupResolver(instrumentSchema)
+   })
+
+   useEffect(()=>{
+      if(instrumentRowSelected?.id){
+         setValue('name',instrumentRowSelected?.name)
+         setValue('quantity',instrumentRowSelected?.quantity)
+      }
+
    })
 
 
@@ -30,7 +51,8 @@ const AddInstrument = ({ handleClose, open, }) => {
          quantity: item?.quantity
       }
 
-      axios.post('http://localhost:5000/instrument', instrumentData)
+      if(instrumentRowSelected?.id){
+         axios.patch(`http://localhost:5000/instrument/${instrumentRowSelected?.id}`, instrumentData)
          .then(response => {
             toast.success(response?.data?.message)
             handleClose()
@@ -42,15 +64,27 @@ const AddInstrument = ({ handleClose, open, }) => {
             console.error('Error:', error.message);
          });
 
-
+      
+      }else{
+         axios.post('http://localhost:5000/instrument', instrumentData)
+         .then(response => {
+            toast.success(response?.data?.message)
+            handleClose()
+            console.log('Response:', response.data);
+         })
+         .catch(error => {
+            toast.error(error?.response?.data?.message)
+            handleClose()
+            console.error('Error:', error.message);
+         });
    }
-
+   }
    return (
       <div>
          <BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open}>
             <BootstrapDialogTitle id='customized-dialog-title' onClose={handleClose}>
                <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-                  Add Instrument
+                {instrumentRowSelected?.id ?'Update Instrument' :  "Add Instrument" }
                </Typography>
             </BootstrapDialogTitle>
             <DialogContent dividers>

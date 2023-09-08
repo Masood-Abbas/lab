@@ -2,15 +2,15 @@ import Box from '@mui/material/Box'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useMemo, useState } from 'react'
 import axios from "axios"
-import InstrumentTable from '@/components/Instruments/InstrumentsTable/index'
-import InstrumentAction from '@/components/Instruments/InstrumentsAction'
-import { setInstrumentModal, setInstruments, setDeleteInstrumentsModal} from '@/store/instruments/instrumentsSlice'
+import InstrumentTable from '@/components/Instrument/InstrumentsTable/index'
+import InstrumentAction from '@/components/Instrument/InstrumentsAction'
+import { setInstrumentModal, setInstruments, setDeleteInstrumentModal,setInstrumentRowSelected} from '@/store/instruments/instrumentsSlice'
 const Instruments = () => {
    const dispatch = useDispatch()
    const { instruments, instrumentModal, deleteInstrumentModal, instrumentRowSelected } = useSelector(state => state.instrument)
    
    useEffect(() => {
-      axios.get('http://localhost:5000/instruments')
+      axios.get('http://localhost:5000/instrument')
       .then(response => {
          dispatch(setInstruments(response.data));
        })
@@ -20,12 +20,14 @@ const Instruments = () => {
    },[dispatch])
 
    const openInstrumentModal = () =>{
+    dispatch(setInstrumentRowSelected({}))
       dispatch(setInstrumentModal(true))
     }
   
     const handleCloseDeleteInstrumentModal =()=>{
-         dispatch(setDeleteInstrumentsModal(false))
+         dispatch(setDeleteInstrumentModal(false))
     }
+    console.log(deleteInstrumentModal,'instrumentModal')
    return (
       <Box component='main' className='main-content'>
         <>
@@ -36,10 +38,11 @@ const Instruments = () => {
           <InstrumentTable
            row={instruments} 
            dispatch={dispatch}
-           titleModal={instrumentModal}
+           instrumentModal={instrumentModal}
            deleteInstrumentModal={deleteInstrumentModal}
            handleCloseDeleteInstrumentModal={handleCloseDeleteInstrumentModal}
            instrumentRowSelected={instrumentRowSelected}
+           openInstrumentModal={openInstrumentModal}
             />
         </>
       

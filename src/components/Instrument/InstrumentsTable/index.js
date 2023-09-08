@@ -1,18 +1,18 @@
 import { useState ,useEffect} from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import { columns } from '@/components/Title/TitleTable/columns'
+import { columns } from '@/components/Instrument/InstrumentsTable/columns'
 import { useSelector } from 'react-redux'
 import { setInstrumentModal ,setPage ,setDeleteInstrumentModal} from '@/store/instruments/instrumentsSlice'
 import TableEmpty from '@/components/common/TableEmpty'
 import AddInstrument from './AddInstrument'
 import DeleteInstrumentModal from './AddInstrument/DeleteInstrumentModal'
-const InstrumentTable = ({ row, dispatch, instrumentModal, deleteInstrumentsModal, handleCloseDeleteInstrumentModal,instrumentRowSelected}) => {
+const InstrumentTable = ({ row, dispatch, instrumentModal, deleteInstrumentModal, handleCloseDeleteInstrumentModal,instrumentRowSelected,openInstrumentModal}) => {
   
 
 
   const [sortModel, setSortModel] = useState([
     {
-      field: 'name',
+      field: 'name', 
       sort: 'asc'
     }
   ])
@@ -22,6 +22,8 @@ const InstrumentTable = ({ row, dispatch, instrumentModal, deleteInstrumentsModa
     dispatch(setInstrumentModal(false))
   }
 
+
+
   return (
     <>
       <div style={{ height: '70vh', width: '100%' }}>
@@ -30,7 +32,7 @@ const InstrumentTable = ({ row, dispatch, instrumentModal, deleteInstrumentsModa
             NoRowsOverlay: TableEmpty
           }}
           rows={row}
-          columns={columns({ dispatch})}
+          columns={columns({ dispatch,openInstrumentModal})}
           rowLength={100}
           rowsPerPageOptions={[15]}
           sortModel={sortModel}
@@ -41,8 +43,8 @@ const InstrumentTable = ({ row, dispatch, instrumentModal, deleteInstrumentsModa
           className="hide-pagination"  
         />
       </div>
-      { instrumentModal && <AddInstrument  open={instrumentModal} handleClose={handleInstrumentModalClose}  />}
-      { deleteInstrumentsModal && <DeleteInstrumentModal open ={deleteInstrumentsModal} handleClose={handleCloseDeleteInstrumentModal} instrumentRowSelected={instrumentRowSelected}
+      { instrumentModal && <AddInstrument instrumentRowSelected={instrumentRowSelected}  open={instrumentModal} handleClose={handleInstrumentModalClose}  />}
+      { deleteInstrumentModal && <DeleteInstrumentModal open ={deleteInstrumentModal} handleClose={handleCloseDeleteInstrumentModal} instrumentRowSelected={instrumentRowSelected}
       dispatch={dispatch}/>}
     </>
   )

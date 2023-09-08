@@ -1,8 +1,10 @@
 import * as yup from 'yup'
 
+// ** Schema for Adding new Designation
 
-export const instrumentSchema = yup.object({
-   name: yup
+export const instrumentSchema = yup
+  .object({
+    name: yup
       .string()
       .trim()
       .typeError('Name is a required field')
@@ -11,10 +13,9 @@ export const instrumentSchema = yup.object({
       .test('no-extra-space', 'Name should not have extra spaces.', value => !/\s{2}/.test(value))
       .matches(/^[^/\\]+$/, 'Slash is not allowed')
       .label('Name'),
-   quanity: yup
-      .number()
-      .required()
-      .label('Number')
-      .typeError('Invalid Number')
-})
-.required
+      quantity:yup
+      .string()
+      .typeError('Quantity is required!')
+      .label('Quantity'),
+  })
+  .required()
