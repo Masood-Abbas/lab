@@ -6,27 +6,15 @@ export const instrumentsSlice = createSlice({
     instruments: [],
     instrumentModal: false,
     instrumentRowSelected: {},
-    searchInstrument: {
-      name: ''
-    },
-    submissionData: {
-      name: '',
-      password: '',
-      type: '',
-      locationId: ""
-    },
-    page: 1,
+    
     deleteInstrumentModal: false,
   },
   reducers: {
-    setPage: (state, action) => {
-      state.page = action.payload
-    },
+   
     setInstruments: (state, action) => {
       state.instruments = action.payload
     },
     setInstrumentModal: (state, action) => {
-      console.log(action.payload)
       state.instrumentModal = action.payload
     },
     setDeleteInstrumentModal: (state, action) => {
@@ -44,6 +32,6 @@ export const instrumentsSlice = createSlice({
   }
 })
 
-export const { setPage, setInstruments, setInstrumentModal, setDeleteInstrumentModal, setInstrumentRowSelected, setSearchInstrument, setSubmissionData } = instrumentsSlice.actions
+export const {  setInstruments, setInstrumentModal, setDeleteInstrumentModal, setInstrumentRowSelected, setSearchInstrument, setSubmissionData } = instrumentsSlice.actions
 
 export default instrumentsSlice.reducer

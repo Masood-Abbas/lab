@@ -14,7 +14,7 @@ const Instruments = () => {
       .then(response => {
          dispatch(setInstruments(response.data));
        })
-       .catch(error => {
+       .catch(error => {  
          console.error('Error:', error.message);
        });
    },[dispatch])
@@ -27,7 +27,6 @@ const Instruments = () => {
     const handleCloseDeleteInstrumentModal =()=>{
          dispatch(setDeleteInstrumentModal(false))
     }
-    console.log(deleteInstrumentModal,'instrumentModal')
    return (
       <Box component='main' className='main-content'>
         <>

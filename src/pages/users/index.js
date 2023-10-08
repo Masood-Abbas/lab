@@ -8,22 +8,11 @@ import axios from "axios"
 const Users = () => {
   const dispatch =useDispatch()
   const { users } = useSelector(state => state.user)
-  useEffect(() => {
-    return () => {
-      dispatch(
-        setFilterUser({
-          status: '',
-          unit: '',
-          name: '',
-          employeeNo: ''
-        })
-      )
-    }
-  }, [dispatch])
+ 
 
   useEffect(() => {
 
-  axios.get('http://localhost:5000/users')
+  axios.get('http://localhost:5000/user')
       .then(response => {
         dispatch(setUsers(response.data));
       })

@@ -56,7 +56,6 @@ const AddInstrument = ({ handleClose, open,instrumentRowSelected }) => {
          .then(response => {
             toast.success(response?.data?.message)
             handleClose()
-            console.log('Response:', response.data);
          })
          .catch(error => {
             toast.error(error?.response?.data?.message)
@@ -70,7 +69,6 @@ const AddInstrument = ({ handleClose, open,instrumentRowSelected }) => {
          .then(response => {
             toast.success(response?.data?.message)
             handleClose()
-            console.log('Response:', response.data);
          })
          .catch(error => {
             toast.error(error?.response?.data?.message)

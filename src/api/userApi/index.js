@@ -47,7 +47,6 @@ const addUser = data =>axios.post('http://localhost:5000/register',data)
 });
 
 export const useAddUser = () => {
-  console.log('in')
   return useMutation('addUser', addUser)
 }
 

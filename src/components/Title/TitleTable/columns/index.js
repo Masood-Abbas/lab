@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip'
 
 export const columns = ({ dispatch,handleTitleModalOpen }) => {
   const handleSelectRow = ({ row }) => {
-    handleTitleModalOpen()
+    // row(handleTitleModalOpen(true)
     dispatch(setTitleRowSelected(row))
   }
 

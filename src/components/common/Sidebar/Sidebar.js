@@ -115,6 +115,19 @@ const Sidebar = props => {
           </ListItem>
         </Link>
       </List>
+
+      <List>
+        <Link href='/request' passHref>
+          <ListItem disablePadding className='truncate-text'>
+            <ListItemButton className={router?.pathname === '/request' ? 'active' : ''} sx={styles}>
+              <ListItemIcon>
+                <SiHomebridge className={router?.pathname === '/request' ? 'active-icon' : 'inactive-icon'} />
+              </ListItemIcon>
+              <ListItemText primary='Request' />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
         
 
       
