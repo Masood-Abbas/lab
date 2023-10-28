@@ -1,34 +1,67 @@
-import { useMutation, useQuery } from 'react-query'
-import api from '@/utils/axios'
+import api from "@/utils/axios";
 
-// ** API for Designation listing
-
-const getTitle = params => api.get(`/designation?${params?.name ? `name=${params?.name}` : ''}
-${params?.locationId ? `locationId=${params?.locationId}` : ''}&take=15
-&${`skip=${params?.skip ? params?.skip : 0 }`}`)
-
-export const useGetTitle = ({ onSuccess, onError, params }) => {
-  return useQuery(['getDesignation', params], () => getTitle(params), {
-    onSuccess,
-    onError,
-    select: data => data.data,
-    retry: false,
-    refetchOnWindowFocus: false
-  })
+export function getTitle() {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`titles`)
+      .then((res) => {
+        resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for create new Designation
-
-const createDesignation = data => api.post('/designation', data)
-
-export const useCreateDesignation = () => {
-  return useMutation('createDesignation', createDesignation)
+export function createTitle(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .post("titles", params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for update Designation
+export function updateTitle(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .patch(`titles/${params?.id}`, params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
 
-const updateTitle = (params, data) => api.patch(`/designation/${params}`, data)
+export function deleteTitle(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .delete(`titles/${params}`, params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
 
-export const useUpdateTitle = params => {
-  return useMutation(['updateDesignation', params], data => updateTitle(params, data))
+export function searchTitle(params) {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    api
+      .get(`titles/search?name=${params?.name}`)
+      .then((res) => {
+        resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }

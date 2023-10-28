@@ -2,18 +2,18 @@ import moment from "moment";
 import { BiEditAlt } from "react-icons/bi";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  setRequestById,
-  setDeleteRequestModal,
-} from "@/store/request/requestSlice";
+  setInstrumentRowSelected,
+  setDeleteInstrumentModal,
+} from "@/store/instruments/instrumentsSlice";
 
-export const columns = ({ dispatch, openRequestModal }) => {
+export const columns = ({ dispatch, openInstrumentModal }) => {
   const handleSelectRow = ({ row }) => {
-    openRequestModal(true);
-    dispatch(setRequestById(row));
+    openInstrumentModal();
+    dispatch(setInstrumentRowSelected(row));
   };
   const handleDeleteInstrumentModal = (row) => {
-    dispatch(setRequestById(row));
-    dispatch(setDeleteRequestModal(true));
+    dispatch(setInstrumentRowSelected(row)); 
+    dispatch(setDeleteInstrumentModal(true));
   };
   return [
     {
@@ -35,7 +35,7 @@ export const columns = ({ dispatch, openRequestModal }) => {
           return (
             <>
               {" "}
-              {row?.firstName} {row?.lastName}{" "}
+              {row?.name}
             </>
           );
         }
@@ -43,63 +43,22 @@ export const columns = ({ dispatch, openRequestModal }) => {
     },
     {
       key: "3",
-      field: "email",
-      headerName: "Email",
+      field: "quantity",
+      headerName: "Quantity",
       minWidth: 150,
       flex: 1,
       renderCell: ({ row }) => {
         {
-          return <> {row?.email} </>;
+          return (
+            <>
+              {" "}
+              {row?.quantity}
+            </>
+          );
         }
       },
     },
-    {
-      key: "6",
-      field: "gender",
-      headerName: "Gender",
-      minWidth: 150,
-      flex: 1,
-      renderCell: ({ row }) => {
-        {
-          return <> {row?.gender} </>;
-        }
-      },
-    },
-    {
-      key: "7",
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      minWidth: 150,
-      flex: 1,
-      renderCell: ({ row }) => {
-        {
-          return <> {row?.phoneNumber} </>;
-        }
-      },
-    },
-    {
-      key: "8",
-      field: "CNIC",
-      headerName: "CNIC",
-      minWidth: 150,
-      flex: 1,
-      renderCell: ({ row }) => {
-        {
-          return <> {row?.CNIC} </>;
-        }
-      },
-    },{
-      key: "9",
-      field: "test",
-      headerName: "Test",
-      minWidth: 150,
-      flex: 1,
-      renderCell: ({ row }) => {
-        {
-          return <> {row?.test} </>;
-        }
-      },
-    },
+  
     {
       key: "4",
       field: "createdAt",
@@ -130,11 +89,11 @@ export const columns = ({ dispatch, openRequestModal }) => {
               sx={{ color: "red" }}
               onClick={() => handleDeleteInstrumentModal(row)}
             />
-            {/* <BiEditAlt
+            <BiEditAlt
               size={20}
               sx={{ color: "primary" }}
               onClick={() => handleSelectRow({ row })}
-            /> */}
+            />
           </>
         );
       },

@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import ContectModal from '@/pages/Home/contectModal';
+import ContectModal from '@/pages/home/contectModal';
 
 const headingStyle = {
   textAlign: 'center',

@@ -1,4 +1,5 @@
 
+
 export const imageExtensions = [
   "jpeg",
   "jpg",
@@ -65,3 +66,16 @@ export const laboratoryTests = [
   'Hepatitis Tests'
 ];
 
+
+export const FileOperationsEnum = {
+  
+  ADD_USER: 'add_user',
+  UPDATE_USER: 'update_user',
+  VIEW_USER: 'view_users',
+  DELETE_USER:'delete_user',
+  ADD_ROLE:'add_role',
+  UPDATE_ROLE: 'update_role',
+  VIEW_ROLE: 'view_role',
+  DELETE_ROLE:'delete_role'
+  
+}

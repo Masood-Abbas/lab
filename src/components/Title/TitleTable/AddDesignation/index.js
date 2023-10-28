@@ -25,11 +25,15 @@ import MenuItem from "@mui/material/MenuItem";
 import { FileOperationsEnum } from "@/utils/constants";
 import { checkUserAssignPermissions } from "@/utils/utils";
 import axios from "axios";
+import { createTitle, updateTitle } from "@/api/titleApi/index";
+import { useMutation } from "react-query";
 
-const AddDesignation = ({ handleClose, open }) => {
+const AddDesignation = ({ handleClose, open,titleRowSelected }) => {
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -37,22 +41,39 @@ const AddDesignation = ({ handleClose, open }) => {
     },
     resolver: yupResolver(titleSchema),
   });
+  const { mutate } = useMutation({
+    mutationFn: (data) => createTitle(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries("getTitles");
+      handleClose();
+      toast.success(res.message);
+    },
+  });
 
+  const { mutate: updateTitleData } = useMutation({
+    mutationFn: (data) => updateTitle(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries("getTitles");
+      handleClose();
+      toast.success(res.message);
+    },
+  });
+
+  useEffect(()=>{
+if(titleRowSelected?.id){
+  setValue('name',titleRowSelected?.name)
+}
+  },[setValue])
   const onSubmit = (item) => {
     const userData = {
       name: item?.name,
     };
-
-    axios
-      .post("http://localhost:5000/titles", userData)
-      .then((response) => {
-        toast.success(response?.data?.message);
-        handleClose();
-      })
-      .catch((error) => {
-        toast.error(error?.response?.data?.message);
-        handleClose();
-      });
+    if(titleRowSelected?.id){
+      userData.id=titleRowSelected?.id
+      updateTitleData(userData)
+    }else{
+      mutate(userData);
+    }    
   };
 
   return (
@@ -67,7 +88,7 @@ const AddDesignation = ({ handleClose, open }) => {
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            Create New Title
+            {titleRowSelected?.id?'Update Title':'Create New Title'}
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>

@@ -19,22 +19,25 @@ import MenuItem from '@mui/material/MenuItem'
 import { FileOperationsEnum } from '@/utils/constants'
 import { checkUserAssignPermissions } from '@/utils/utils'
 import axios from 'axios'
+import { deleteTitle } from "@/api/titleApi/index";
+import { useMutation } from "react-query";
+
 
 const DeleteTitleDesignation = ({ handleClose, open,titleRowSelected ,dispatch }) => {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (data) => deleteTitle(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries("getTitles");
+      handleClose();
+      toast.success(res.message);
+    },
+  });
 
    
       
 const handleDeleteTitle =()=>{
-    axios.delete(`http://localhost:5000/titles/${titleRowSelected?.id}`)
-    .then(response => {       
-      toast.success(response?.data?.message);
-      handleClose()
-
-    })
-    .catch(error => {
-        toast.error(error?.message)
-        handleClose()
-    });
+  mutate(titleRowSelected?.id)
 }
 
 

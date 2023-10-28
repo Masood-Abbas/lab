@@ -18,10 +18,10 @@ const Request = () => {
   const dispatch = useDispatch();
 
   const { requests, requestModal, deleteRequestModal, requestById } =
-    useSelector((state) => state.request);
+    useSelector((state) => state.request);  
 
   const { isLoading } = useQuery({
-    queryKey: ["getBasicDetailOfPatient"],
+    queryKey: ["getBasicDetailOfPatients"],
     queryFn: getBasicDetailOfPatient,
     onSuccess: (res) => {
       dispatch(setRequests(res));

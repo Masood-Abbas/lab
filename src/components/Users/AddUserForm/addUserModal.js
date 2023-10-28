@@ -25,9 +25,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useAddUser, useUpdateUser } from "@/api/userApi";
 import axios from "axios";
-
-const AddUserModal = ({ open, handleClose, userById }) => {
+import RoleSelector from '@/components/Users/AddUserForm/RoleSelector'
+import { useDispatch } from "react-redux";
+const AddUserModal = ({ open, handleClose, userById,titles,userRoles }) => {
   const focusedInputRef = useRef(null);
+  const dispatch=useDispatch()
 
   const {
     watch,
@@ -45,6 +47,7 @@ const AddUserModal = ({ open, handleClose, userById }) => {
       employeeNo: null,
       employeeType: null,
       lastName: null,
+      roles:[]
     },
     resolver: yupResolver(addUserSchema),
   });
@@ -56,8 +59,9 @@ const AddUserModal = ({ open, handleClose, userById }) => {
   const email = watch("email");
   const category = watch("category");
   const employeeType = watch("employeeType");
-  const profile_img = watch("profile_img");
+  const roles = watch('roles')
 
+  console.log(roles,'ssssssss')
   const personnelHandleOnChange = (event) => {
     clearErrors("employeeType");
     setValue("employeeType", event?.target?.value);
@@ -87,10 +91,11 @@ const AddUserModal = ({ open, handleClose, userById }) => {
       email: values?.email,
       employe_type: values?.employeeType,
       category: values?.category,
+      roles: roles,
     };
 
     axios
-      .post("http://localhost:5000/register", userData)
+      .post("http://localhost:5000/user", userData)
       .then((response) => {
         toast.success(response?.data?.message);
         handleClose();
@@ -101,6 +106,7 @@ const AddUserModal = ({ open, handleClose, userById }) => {
       });
   };
 
+  console.log(errors)
   return (
     <div>
       <BootstrapDialog
@@ -279,6 +285,16 @@ const AddUserModal = ({ open, handleClose, userById }) => {
                   {...register("phoneNumber")}
                 />
               </Grid>
+              <Grid item xs={12} sm={6}> <RoleSelector
+                userById={userById}
+                setValue={setValue}
+                roles={roles}
+                error={errors?.roles?.message}
+                clearErrors={clearErrors}
+                dispatch={dispatch}
+                userRole={userRoles}
+              /></Grid>
+             
 
               <Grid item xs={12}>
                 <Divider sx={{ my: 3, width: "100%" }} />

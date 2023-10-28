@@ -10,7 +10,7 @@ const PageNotFound = () => {
   }
 
   const handleClickHomePage = () => {
-    router.push('/')
+    router.push('/home')
   }
 
   return (

@@ -4,20 +4,22 @@ import { useEffect, useMemo, useState } from 'react'
 import axios from "axios"
 import InstrumentTable from '@/components/Instrument/InstrumentsTable/index'
 import InstrumentAction from '@/components/Instrument/InstrumentsAction'
+import { getInstruments } from "@/api/instrumentApi/index";
+import Loader from "@/components/common/Loader/Loader";
+import { useQuery } from "react-query";
+
 import { setInstrumentModal, setInstruments, setDeleteInstrumentModal,setInstrumentRowSelected} from '@/store/instruments/instrumentsSlice'
 const Instruments = () => {
    const dispatch = useDispatch()
    const { instruments, instrumentModal, deleteInstrumentModal, instrumentRowSelected } = useSelector(state => state.instrument)
-   
-   useEffect(() => {
-      axios.get('http://localhost:5000/instrument')
-      .then(response => {
-         dispatch(setInstruments(response.data));
-       })
-       .catch(error => {  
-         console.error('Error:', error.message);
-       });
-   },[dispatch])
+   const { isLoading } = useQuery({
+    queryKey: ["getInstruments"],
+    queryFn: getInstruments,
+    onSuccess: (res) => {
+      dispatch(setInstruments(res));
+    },
+  });
+
 
    const openInstrumentModal = () =>{
     dispatch(setInstrumentRowSelected({}))
@@ -30,10 +32,12 @@ const Instruments = () => {
    return (
       <Box component='main' className='main-content'>
         <>
+        {isLoading && <Loader />}
           <InstrumentAction
            dispatch={dispatch}
            openInstrumentModal={openInstrumentModal}
            />
+            {!isLoading && (
           <InstrumentTable
            row={instruments} 
            dispatch={dispatch}
@@ -43,6 +47,7 @@ const Instruments = () => {
            instrumentRowSelected={instrumentRowSelected}
            openInstrumentModal={openInstrumentModal}
             />
+            )}
         </>
       
     </Box>

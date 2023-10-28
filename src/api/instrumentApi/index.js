@@ -1,53 +1,73 @@
-import { useMutation, useQuery } from 'react-query'
-import api from '@/utils/axios'
+import api from "@/utils/axios";
 
-// ** API for Instruments listing
 
-const getInstruments = () => api.get('/instrument')
 
-export const useGetInstruments = ({ onSuccess, onError }) => {
-  return useQuery('getInstruments', getInstruments, {
-    onSuccess,
-    onError,
-    select: data => data.data,
-    retry: false,
-    refetchOnWindowFocus: false
-  })
+
+export function getInstruments() {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`Instrument`)
+      .then((res) => {
+        resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err); 
+      });
+  });
 }
 
-// ** API for instrument search
 
-const searchInstrument = params =>
-
-  api.get(
-    `/instrument/search/findByFilter?${params?.name ? `name=${params?.name}` : ''}${
-      params?.abbreviation ? `abbreviation=${params?.abbreviation}` : ''
-    }${params?.serialNo ? `serialNo=${params?.serialNo}` : ''}`
-  )
-
-export const useSearchInstrument = ({ onSuccess, onError, params }) => {
-
-  return useQuery(params !== undefined && ['searchInstrument', params], () => searchInstrument(params), {
-    onSuccess,
-    onError,
-    select: data => data.data,
-    retry: false,
-    refetchOnWindowFocus: false
-  })
+export function createInstrument(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .post("Instrument", params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for create new instrument
-
-const createInstrument = data => api.post('/instrument', data)
-
-export const useCreateInstrument = () => {
-  return useMutation('createinstrument', createInstrument)
+export function updateInstrument(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .patch(`Instrument/${params?.id}`, params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for update instrument
-
-const updateInstrument = (params, data) => api.patch(`/instrument/${params}`, data)
-
-export const useUpdateInstrument = params => {
-  return useMutation(['updateinstrument', params], data => updateInstrument(params, data))
+export function deleteInstrument(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .delete(`Instrument/${params}`, params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
+
+
+export function searchInstrument(params) {
+  console.log(params)
+  return new Promise((resolve, reject) => {
+    api
+      .get(`Instrument/search?name=${params?.name}`)
+      .then((res) => {
+        resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err); 
+      });
+  });
+}
+

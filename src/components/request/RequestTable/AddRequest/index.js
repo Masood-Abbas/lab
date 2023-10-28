@@ -27,10 +27,10 @@ import { checkUserAssignPermissions } from "@/utils/utils";
 import axios from "axios";
 import { useEffect } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-import { createBasicDetailOfPatient } from "@/api/requestApi/reqest";
+import { createBasicDetailOfPatient ,updateRequest} from "@/api/requestApi/reqest";
 import { useQueryClient } from "react-query";
 
-const AddRequest = ({ handleClose, open }) => {
+const AddRequest = ({ handleClose, open, requestById }) => {
   const queryClient = useQueryClient();
   const {
     register,
@@ -55,13 +55,18 @@ const AddRequest = ({ handleClose, open }) => {
   const gender = watch("gender");
   const test = watch("test");
 
-  //    useEffect(()=>{
-  //       i?.id){
-  //          setValue('name?.name)
-  //          setValue('quantity?.quantity)
-  //       }
 
-  //    })
+  useEffect(() => {
+    if (requestById?.id) {
+      setValue("firstName",requestById?.firstName);
+      setValue("lastName",requestById?.lastName);
+      setValue("CNIC",requestById?.CNIC);
+      setValue("email",requestById?.email);
+      setValue("phoneNumber",requestById?.phoneNumber);
+      setValue("test",requestById?.test);
+      setValue("gender",requestById?.gender);
+    }
+  }, [setValue]);
 
   const genderHandleOnChange = (event) => {
     clearErrors("gender");
@@ -76,7 +81,16 @@ const AddRequest = ({ handleClose, open }) => {
   const { mutate } = useMutation({
     mutationFn: (data) => createBasicDetailOfPatient(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getBasicDetailOfPatient");
+      queryClient.invalidateQueries("getBasicDetailOfPatients");
+      handleClose();
+      toast.success(res.message);
+    },
+  });
+
+  const { mutate:updateRequestData } = useMutation({
+    mutationFn: (data) => updateRequest(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries("getBasicDetailOfPatients");
       handleClose();
       toast.success(res.message);
     },
@@ -92,7 +106,12 @@ const AddRequest = ({ handleClose, open }) => {
       test: item?.test,
       CNIC: item?.CNIC,
     };
+    if(requestById?.id){
+      data.id=requestById?.id
+      updateRequestData(data)
+    }else{
     mutate(data);
+    }
   };
   return (
     <div>
@@ -106,7 +125,7 @@ const AddRequest = ({ handleClose, open }) => {
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-              Add Patient Basic Detail
+            Add Patient Basic Detail
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -154,9 +173,7 @@ const AddRequest = ({ handleClose, open }) => {
                   errors["phoneNumber"] ? errors["phoneNumber"].message : ""
                 }
                 {...register("phoneNumber")}
-                inputProps={{
-                  type: "number",
-                }}
+               
               />
               <TextField
                 sx={{ mb: 2 }}
@@ -166,9 +183,7 @@ const AddRequest = ({ handleClose, open }) => {
                 placeholder="35202-0909870-9"
                 helperText={errors["CNIC"] ? errors["CNIC"].message : ""}
                 {...register("CNIC")}
-                inputProps={{
-                  type: "number",
-                }}
+              
               />
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>

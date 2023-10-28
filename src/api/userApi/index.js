@@ -1,75 +1,67 @@
-import { useMutation, useQuery } from 'react-query'
-import api from '@/utils/axios'
+import api from "@/utils/axios";
 
-// ** API for Users listing
-
-const getAllUsers = params =>
-  api.get(
-    `/user?${params?.name ? `name=${params?.name}` : ''}${
-      params?.employeeNo ? `employeeNo=${params?.employeeNo}` : ''
-    }${
-      params?.unit ? (params?.unit === 'all' ? `allSections=${params?.unit}` : `unitAbbreviation=${params?.unit}`) : ''
-    }${params?.status ? `status=${params?.status}` : ''}&take=15&${`skip=${params?.skip ? params?.skip : 0}`}`
-  )
-
-export const useGetAllUsers = ({ onSuccess, onError, params }) => {
-  return useQuery(params && ['getAllUsers', params], () => getAllUsers(params), {
-    onSuccess,
-    onError,
-    select: data => data.data,
-    retry: false,
-    refetchOnWindowFocus: false
-  })
+export function getUser() {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`user`)
+      .then((res) => {
+        resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for Get user by Id
-
-const getUser = params => api.get(`/user/${params}`)
-
-export const useGetUser = ({ onSuccess, onError, params }) => {
-  return useQuery(params !== undefined && ['getUser', params], () => getUser(params), {
-    onSuccess,
-    onError,
-    select: data => data.data,
-    retry: false,
-    refetchOnWindowFocus: false
-  })
+export function create(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .post("user", params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for Add new User
-
-const addUser = data =>axios.post('http://localhost:5000/register',data)
-.then(response => {
-  console.log('Response:', response.data);
-})
-.catch(error => {
-  console.error('Error:', error.message);
-});
-
-export const useAddUser = () => {
-  return useMutation('addUser', addUser)
+export function updateUser(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .patch(`user/${params?.id}`, params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-// ** API for update User
-
-const updateUser = (params, data) => api.patch(`/user/${params}`, data)
-
-export const useUpdateUser = params => {
-  return useMutation(['updateUser', params], data => updateUser(params, data))
+export function deleteUser(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .delete(`user/${params}`, params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
-//  API for Resend Email
-
-const getEmailResend = data => api.patch(`/auth/${data}/resend-email`)
-
-export const useResendEmail = () => {
-  return useMutation(['getEmailResend'], data => getEmailResend(data))
-}
-
-//  API for set Password Email
-
-const setPassword = (params, data) => api.post(`/auth/${params}/set-password`, data)
-
-export const useSetUserPassword = params => {
-  return useMutation(['useSetUserPassword', params], data => setPassword(params, data))
+export function searchUser(params) {
+  console.log(params);
+  return new Promise((resolve, reject) => {
+    api
+      .get(`user/search?name=${params?.name}`)
+      .then((res) => {
+        resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }

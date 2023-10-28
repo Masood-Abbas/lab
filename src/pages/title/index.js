@@ -11,21 +11,22 @@ import { useEffect, useMemo, useState } from 'react'
 // import { checkUserAssignPermissions } from '@/utils/utils'
 // import { useRouter } from 'next/router'
 import axios from "axios"
+import { useQuery } from "react-query";
+import { getTitle } from "@/api/titleApi/index";
+import Loader from "@/components/common/Loader/Loader";
 
 const Titles = () => {
   const dispatch = useDispatch()
   const { titles ,titleModal,deleteTitleModal,titleRowSelected} = useSelector(state => state.title)
+  const { isLoading } = useQuery({
+    queryKey: ["getTitles"],
+    queryFn: getTitle,
+    onSuccess: (res) => {
+      dispatch(setTitles(res));
+    },
+  });
 
-  useEffect(() => {
-  axios.get('http://localhost:5000/titles')
-      .then(response => {
-        dispatch(setTitles(response.data));
-      })
-      .catch(error => {
-        console.error('Error:', error.message);
-      });
-  }, [dispatch]);
-
+ 
   
   const openTitleModal = () =>{
     dispatch(setTitleModal(true))
@@ -40,10 +41,12 @@ const Titles = () => {
   return (
     <Box component='main' className='main-content'>
         <>
+        {isLoading && <Loader />}
           <TitleActions
            dispatch={dispatch}
            openTitleModal={openTitleModal}
            />
+           {!isLoading && (
           <Table
            row={titles} 
            dispatch={dispatch}
@@ -53,6 +56,7 @@ const Titles = () => {
            titleRowSelected={titleRowSelected}
            openTitleModal={openTitleModal}
             />
+            )}
         </>
       
     </Box>

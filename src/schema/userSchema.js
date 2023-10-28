@@ -10,7 +10,7 @@ export const addUserSchema = yup
     category: yup.string().required('Category is required ').label('Category').typeError('Category is required '),
     employeeType: yup.string().required().label('Employee Type').typeError('Employee Type is required '),
     password: yup.string().required().label('Password').typeError('Password is a required'),
-    
+   
   })
   .required()
 

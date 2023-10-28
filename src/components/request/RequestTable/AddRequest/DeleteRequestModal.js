@@ -19,7 +19,7 @@ const DeleteRequestModal = ({ handleClose, open,requestById }) => {
   const { mutate } = useMutation({
     mutationFn: (data) => deleteBasicDetailOfPatient(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getBasicDetailOfPatient");
+      queryClient.invalidateQueries("getBasicDetailOfPatients");
       handleClose();
       toast.success(res.message);
     },
@@ -49,7 +49,19 @@ const DeleteRequestModal = ({ handleClose, open,requestById }) => {
             <Typography>
               Are you sure to delete this patient basic delete?
             </Typography>
-            <Typography></Typography>
+            <Typography>
+            <b>Name:</b>{requestById?.firstName} {requestById?.lastName}
+              <br/>
+              <b>ID:</b>{requestById?.id}
+              <br/>
+              <b>Test:</b>{requestById?.test}
+              <br/>
+              <b>Gender:</b>{requestById?.gender}
+              <br/>
+              <b>Email:</b>{requestById?.email}
+              <br/>
+              <b>Phone Number:</b>{requestById?.phoneNumber}
+            </Typography>
 
             <Box
               sx={{

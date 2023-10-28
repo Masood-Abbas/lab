@@ -1,44 +1,30 @@
-import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box,  Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   BootstrapDialog,
   BootstrapDialogTitle,
 } from "@/components/common/DialogTitle/DialogTitle";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { FileOperationsEnum } from "@/utils/constants";
-import { checkUserAssignPermissions } from "@/utils/utils";
-import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { deleteInstrument } from "@/api/instrumentApi/index";
+import { deleteRole } from "@/api/roleApi/index";
 
-const DeleteInstrumentModal = ({
-  handleClose,
-  open,
-  instrumentRowSelected,
-}) => {
+const DeleteRoleModal = ({ handleClose, open,roleById }) => {
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
-    mutationFn: (data) => deleteInstrument(data),
+    mutationFn: (data) => deleteRole(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getInstruments");
+      queryClient.invalidateQueries("getRoles");
       handleClose();
       toast.success(res.message);
     },
   });
 
-  const handleDeleteInstrument = () => {
-    mutate(instrumentRowSelected?.id);
-  };
+ const deleteHandler = () =>{
+    mutate(roleById?.id)
+ }
+
 
   return (
     <div>
@@ -52,16 +38,18 @@ const DeleteInstrumentModal = ({
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            Instrument Remove
+            Role
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Box sx={{ minWidth: 500 }}>
-            <Typography>Are you sure to delete this instrument?</Typography>
             <Typography>
-            <b>Name:</b>{instrumentRowSelected?.name}
+              Are you sure to delete this patient basic delete?
+            </Typography>
+            <Typography>
+              <b>Name:</b>{roleById?.name}
               <br/>
-              <b>ID:</b>{instrumentRowSelected?.id}
+              <b>ID:</b>{roleById?.id}
             </Typography>
 
             <Box
@@ -85,9 +73,9 @@ const DeleteInstrumentModal = ({
                 type="submit"
                 className="btn-primary"
                 sx={{ py: "0.55rem", px: "1.5rem", mt: "1rem", color: "#fff" }}
-                onClick={handleDeleteInstrument}
+                onClick={deleteHandler}
               >
-                Save
+                Confirm
               </LoadingButton>
             </Box>
           </Box>
@@ -97,4 +85,4 @@ const DeleteInstrumentModal = ({
   );
 };
 
-export default DeleteInstrumentModal;
+export default DeleteRoleModal;

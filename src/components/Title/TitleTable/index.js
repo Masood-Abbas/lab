@@ -31,7 +31,7 @@ const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitl
             NoRowsOverlay: TableEmpty
           }}
           rows={row}
-          columns={columns({ dispatch})}
+          columns={columns({ dispatch,openTitleModal})}
           rowLength={100}
           rowsPerPageOptions={[15]}
           sortModel={sortModel}
@@ -42,7 +42,7 @@ const Table = ({ row, dispatch,titleModal,deleteTitleModal,handleCloseDeleteTitl
           className="hide-pagination"  
         />
       </div>
-      {titleModal && <AddDesignation  open={titleModal} handleClose={handleTitleModalClose}  />}
+      {titleModal && <AddDesignation  open={titleModal} handleClose={handleTitleModalClose}  titleRowSelected={titleRowSelected}/>}
       { deleteTitleModal&& <DeleteTitleDesignation open ={deleteTitleModal} handleClose={handleCloseDeleteTitleModal} titleRowSelected={titleRowSelected}
       dispatch={dispatch}/>}
     </>

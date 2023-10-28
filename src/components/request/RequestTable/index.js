@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { columns } from "@/components/Instrument/InstrumentsTable/columns";
+import { columns } from "@/components/request/RequestTable/RequestColumns";
 import { useSelector } from "react-redux";
 import {
   setRequestModal,

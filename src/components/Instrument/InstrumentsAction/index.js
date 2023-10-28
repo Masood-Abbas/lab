@@ -1,12 +1,10 @@
 import {Button, TextField} from '@mui/material'
 import Grid from '@mui/material/Grid'
-import {setSearchInstrument, setPage} from '@/store/instruments/instrumentsSlice'
+import {setSearchInstrument} from '@/store/instruments/instrumentsSlice'
 const InstrumentsAction = ({ dispatch, openInstrumentModal }) => {
 
    const resetSearch = () => {
-      dispatch(setSearchInstrument({name:''}))  
-      // setSkip(0)
-      dispatch(setPage(1))
+      dispatch(setSearchInstrument({name:''})) 
    }
 
 
