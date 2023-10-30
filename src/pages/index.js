@@ -38,7 +38,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema ,reportSchema} from "@/schema/authSchema";
 import CircularProgress from "@mui/material/CircularProgress";
 import { loginUser } from "@/api/authApi/authApi";
+import {getReport} from '@/api/workflowInboxApi/index'
 import { useMutation } from "react-query";
+import axios from "axios";
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -69,6 +71,15 @@ const LoginPage = () => {
       router.push("/");
     },
   });
+  const { mutate:downloadReport } = useMutation({
+    mutationFn: (data) => getReport(data),
+    // onSuccess: (data) => {
+    //   router.push("/home");
+    // },
+    // onError: (err) => {
+    //   router.push("/");
+    // },
+  });
   const {
     register,
     handleSubmit,
@@ -92,21 +103,30 @@ const LoginPage = () => {
       password: formData?.password,
     };
 
-    mutate(form, {
-      onSuccess: (data) => {
-        console.log(data);
-        document.cookie = `refresh_token=${data?.data?.refresh_token};path=/;`;
-        document.cookie = `access_token=${data?.data?.access_token};path=/;`;
-        // dispatch(setUser(data.data))
-        // dispatch(setAuthenticated(true))
-        router.push("/home");
-        toast.success("Successfully logged in");
-      },
-      onError: (err) => {
-        console.log(err)
-        toast.error(err?.response?.data);
-      },
-    });
+    if(selectedButton === 'laboratoryMember'){
+ // mutate(form, {
+    //   onSuccess: (data) => {
+    //     console.log(data);
+    //     document.cookie = `refresh_token=${data?.data?.refresh_token};path=/;`;
+    //     document.cookie = `access_token=${data?.data?.access_token};path=/;`;
+    //     // dispatch(setUser(data.data))
+    //     // dispatch(setAuthenticated(true))
+    //     router.push("/home");
+    //     toast.success("Successfully logged in");
+    //   },
+    //   onError: (err) => {
+    //     console.log(err)
+    //     toast.error(err?.response?.data);
+    //   },
+    // });
+    }else{
+      const data={name:formData?.reportNumber?.trim()}
+      downloadReport(data)
+      // router.push(`http://localhost:5000/public/pdf/${formData?.reportNumber?.trim()}.pdf`)
+    }
+    console.log(formData)
+
+   
   };
 
   return (

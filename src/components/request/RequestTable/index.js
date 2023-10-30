@@ -7,6 +7,7 @@ import {
 } from  "@/store/request/requestSlice";
 import TableEmpty from "@/components/common/TableEmpty";
 import AddRequest from "./AddRequest";
+import { useRouter } from 'next/router';
 import DeleteRequestModal from "./AddRequest/DeleteRequestModal";
 const RequestTable = ({
   row,
@@ -17,6 +18,9 @@ const RequestTable = ({
   requestById,
   openRequestModal,
 }) => {
+  const router = useRouter();
+  const { test } = router.query; 
+  console.log(test)
   const [sortModel, setSortModel] = useState([
     {
       field: "name",
@@ -37,6 +41,7 @@ const RequestTable = ({
             NoRowsOverlay: TableEmpty,
           }}
           rows={row}
+          sx={{cursor:'pointer'}}
           columns={columns({ dispatch, openRequestModal })}
           rowLength={100}
           rowsPerPageOptions={[15]}
@@ -46,6 +51,11 @@ const RequestTable = ({
           rowCount={row?.length}
           pagination={false}
           className="hide-pagination"
+          onRowClick={(params) => {
+            router.push(`/request/patientDetail/${params.row.id}`)
+           
+           
+          }}
         />
       </div>
       {requestModal && (

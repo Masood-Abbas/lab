@@ -39,6 +39,21 @@ export function deleteBasicDetailOfPatient(params) {
   });
 }
 
+export function getBasicDetailOfPatientById(params) {
+
+  return new Promise((resolve, reject) => {
+    api
+      .get(`patient/${params}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+
 export function updateRequest(params) {
   return new Promise((resolve, reject) => {
     api
