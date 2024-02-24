@@ -11,11 +11,13 @@ import {
 } from "@/store/role/roleSlice";
 import { useQuery } from "react-query";
 import Loader from "@/components/common/Loader/Loader";
-import { getPermissions, getRoles, searchRoles } from "@/api/roleApi";
-// import { useDebounce } from 'ahooks'
-import { useEffect, useMemo } from "react";
+import { getPermissions, getRoles } from "@/api/roleApi";
+import { useEffect } from "react";
+import  { checkPermissions } from "@/utils/utils";
+import { useRouter } from "next/router";
 
 const Role = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const {
@@ -27,34 +29,20 @@ const Role = () => {
     searchRoleName,
   } = useSelector((state) => state.role);
 
-  //   const debounce = useDebounce(searchRoleName, { wait: 500 })
+  const { user } = useSelector((state) => state.auth);
 
-  // const searchParam = useMemo(() => {
-  //   return {
-  //     name: debounce,
-  //   }
-  // }, [debounce])
+  useEffect(() => {
+    const checkPermission = checkPermissions(7, user?.roles[0]?.permissions);
 
-  // (searchParam)
-
-  //  const {mutate}= useMutation({
-  //     mutationKey: ["searchRoles"],
-  //     mutationFn: (data)=>searchRoles(data),
-  //     onSuccess: (res) => {
-  //       (res)
-  //       dispatch(setRoles(res?.roles))
-  //     },
-  //   });
-
-  //   useEffect(()=>{
-  //     mutate(searchParam)
-  //   },[searchParam,mutate])
+    if (!checkPermission) {
+      // router.push("/404");
+    }
+  }, [router, user]);
 
   useQuery({
     queryKey: ["getPermissions"],
     queryFn: getPermissions,
     onSuccess: (res) => {
-      // (res)
       dispatch(setPermissions(res));
     },
   });
@@ -63,10 +51,9 @@ const Role = () => {
     queryKey: ["getRoles"],
     queryFn: getRoles,
     onSuccess: (res) => {
-      res;
       dispatch(setRoles(res));
     },
-    //  enabled: searchParam?.name!==''
+    retry: false,
   });
 
   const openRoleModal = () => {

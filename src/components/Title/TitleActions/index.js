@@ -2,14 +2,13 @@ import { Button, TextField } from '@mui/material'
 import { setSearchTitle ,setPage} from '@/store/title/titleSlice'
 import Grid from '@mui/material/Grid'
 import { useSelector } from 'react-redux'
+import { checkPermissions } from '@/utils/utils'
 
 const TitleActions = ({  dispatch ,openTitleModal}) => {
 
-  const resetSearch = () => {
-    dispatch(setSearchTitle({name:''}))  
-    setSkip(0)
-    dispatch(setPage(1))
-  }
+
+  const { user } = useSelector((state) => state.auth);
+  const addTitlePermission = checkPermissions(9, user?.roles[0]?.permissions);
 
   // const handleSearch = (value, name) => {
   //   dispatch(
@@ -39,7 +38,7 @@ const TitleActions = ({  dispatch ,openTitleModal}) => {
         />
       </Grid>
       <Grid item xs={2} md={4} lg={1}>
-        <Button onClick={resetSearch} variant='contained' sx={{ color: '#fff', fontWeight: 600, py: 1, mb: 1 }}>
+        <Button  variant='contained' sx={{ color: '#fff', fontWeight: 600, py: 1, mb: 1 }}>
           Reset
         </Button>
       </Grid>
@@ -50,6 +49,7 @@ const TitleActions = ({  dispatch ,openTitleModal}) => {
           onClick={openTitleModal}
             variant='contained'
             sx={{ color: '#fff', fontWeight: 600, py: 1, mb: 1 }}
+            disabled={!addTitlePermission}
           >
             Add New Title
           </Button>

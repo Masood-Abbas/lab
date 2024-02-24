@@ -16,9 +16,12 @@ import { useMutation } from "react-query";
 import axios from "axios";  
 import { useEffect } from "react";
 import { createInstrument, updateInstrument } from "@/api/instrumentApi";
+import { checkPermissions } from "@/utils/utils";
 
 const AddInstrument = ({ handleClose, open, instrumentRowSelected }) => {
   const queryClient = useQueryClient();
+ 
+
   const {
     register,
     handleSubmit,

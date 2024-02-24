@@ -8,5 +8,9 @@ export const Requestschema = yup.object({
   gender: yup.string().oneOf(['Male', 'Female', 'Other'], 'Invalid gender').required('Gender is required'),
   test: yup.string().required('Test is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
+  age: yup.string().required('Age is required'),
+  test: yup.string().required('Test is required'),
+  pdfName: yup.string().required('Report ID is required'),
+  
 }).required()
 

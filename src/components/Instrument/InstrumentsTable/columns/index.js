@@ -5,14 +5,20 @@ import {
   setInstrumentRowSelected,
   setDeleteInstrumentModal,
 } from "@/store/instruments/instrumentsSlice";
+import { IconButton } from "@mui/material";
 
-export const columns = ({ dispatch, openInstrumentModal }) => {
+export const columns = ({
+  dispatch,
+  openInstrumentModal,
+  updateInstrumentPermission,
+  deleteInstrumentPermission,
+}) => {
   const handleSelectRow = ({ row }) => {
     openInstrumentModal();
     dispatch(setInstrumentRowSelected(row));
   };
   const handleDeleteInstrumentModal = (row) => {
-    dispatch(setInstrumentRowSelected(row)); 
+    dispatch(setInstrumentRowSelected(row));
     dispatch(setDeleteInstrumentModal(true));
   };
   return [
@@ -23,6 +29,11 @@ export const columns = ({ dispatch, openInstrumentModal }) => {
       headerAlign: "center",
       align: "center",
       width: 50,
+      renderCell: ({ row }) => {
+        {
+          return <> {row?.id}</>;
+        }
+      },
     },
     {
       key: "2",
@@ -32,12 +43,7 @@ export const columns = ({ dispatch, openInstrumentModal }) => {
       flex: 1,
       renderCell: ({ row }) => {
         {
-          return (
-            <>
-              {" "}
-              {row?.name}
-            </>
-          );
+          return <> {row?.name}</>;
         }
       },
     },
@@ -49,16 +55,11 @@ export const columns = ({ dispatch, openInstrumentModal }) => {
       flex: 1,
       renderCell: ({ row }) => {
         {
-          return (
-            <>
-              {" "}
-              {row?.quantity}
-            </>
-          );
+          return <> {row?.quantity}</>;
         }
       },
     },
-  
+
     {
       key: "4",
       field: "createdAt",
@@ -84,16 +85,18 @@ export const columns = ({ dispatch, openInstrumentModal }) => {
       renderCell: ({ row }) => {
         return (
           <>
-            <DeleteIcon
-              size={20}
-              sx={{ color: "red" }}
+            <IconButton
+              disabled={!deleteInstrumentPermission}
               onClick={() => handleDeleteInstrumentModal(row)}
-            />
-            <BiEditAlt
-              size={20}
-              sx={{ color: "primary" }}
-              onClick={() => handleSelectRow({ row })}
-            />
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <IconButton
+              disabled={!updateInstrumentPermission}
+              onClick={() => handleSelectRow(row)}
+            >
+              <BiEditAlt sx={{ color: "primary" }} />
+            </IconButton>
           </>
         );
       },

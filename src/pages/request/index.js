@@ -13,9 +13,11 @@ import {
 import { useQuery } from "react-query";
 import { getBasicDetailOfPatient } from "@/api/requestApi/reqest";
 import Loader from "@/components/common/Loader/Loader";
+import useUserDataFetch from "@/utils/utils";
 
 const Request = () => {
   const dispatch = useDispatch();
+  useUserDataFetch()
 
   const { requests, requestModal, deleteRequestModal, requestById } =
     useSelector((state) => state.request);  

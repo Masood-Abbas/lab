@@ -66,9 +66,7 @@ const AddRole = ({ handleClose, open, dispatch, permissions, roleById }) => {
 
   useEffect(() => {
     if (roleById?.id) {
-      const userPermissionsIds = roleById?.permissions?.map((item) => item?.id)(
-        userPermissionsIds
-      );
+      const userPermissionsIds = roleById?.permissions?.map((item) => item?.id)
       setValue("name", roleById?.name);
       setCheckboxValues((prevCheckboxValues) => {
         const updatedCheckboxValues = { ...prevCheckboxValues };

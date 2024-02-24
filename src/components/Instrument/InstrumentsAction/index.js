@@ -1,7 +1,13 @@
 import {Button, TextField} from '@mui/material'
 import Grid from '@mui/material/Grid'
 import {setSearchInstrument} from '@/store/instruments/instrumentsSlice'
+import { useSelector } from 'react-redux';
+import { checkPermissions } from '@/utils/utils';
 const InstrumentsAction = ({ dispatch, openInstrumentModal }) => {
+
+   const { user } = useSelector((state) => state.auth);
+   const addInstrumentPermission=checkPermissions(13, user?.roles[0]?.permissions)
+ 
 
    const resetSearch = () => {
       dispatch(setSearchInstrument({name:''})) 
@@ -29,6 +35,7 @@ const InstrumentsAction = ({ dispatch, openInstrumentModal }) => {
                   onClick={openInstrumentModal}
                   variant='contained'
                   sx={{ color: '#fff', fontWeight: 600, py: 1, mb: 1 }}
+                  disabled={!addInstrumentPermission}
                >
                   Add Equipments
                </Button>

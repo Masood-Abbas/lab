@@ -21,44 +21,7 @@ const AdminLayout = ({ children, roles = null }) => {
   const [accessGranted, setAccessGranted] = useState(false);
   const { authenticated } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const email = getFromLocalStorage("appEmail");
-      try {
-        const response = await fetch(`http://localhost:5000/user/${email}`, {
-          method: "GET",
-        });
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        const data = await response.json();
-        console.log(response,data)
-        dispatch(setUser(data))
-      } catch (error) {
-        error;
-      }
-    };
-
-    if (
-      router?.pathname === "/home" ||
-      router?.pathname === "request" ||
-      router?.pathname === "instrument" ||
-      router?.pathname === "role" ||
-      router?.pathname === "title" ||
-      router?.pathname === "users"
-    ) {
-      fetchData();
-    }
-  }, [router]);
-
-  // useQuery({
-  //   mutationFn: () => getUserByEmail(getFromLocalStorage('appEmail')),
-  //   onSuccess: (res) => {
-  //     (res)
-  //   },
-  // });
+  
 
   useEffect(() => {
     if (authenticated) {
@@ -70,10 +33,6 @@ const AdminLayout = ({ children, roles = null }) => {
 
   const handleDrawerToggle = () => {
     setOpen(!open);
-  };
-
-  const isAuthenticated = () => {
-    return true;
   };
 
   return (

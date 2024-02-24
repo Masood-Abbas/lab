@@ -10,6 +10,7 @@ import { getRoles } from "@/api/roleApi";
 import { setTitles } from "@/store/title/titleSlice";
 import { getTitle } from "@/api/titleApi/index";
 import { getUser } from "@/api/userApi/index";
+import useUserDataFetch from "@/utils/utils";
 
 const Users = () => {
   const query=useQueryClient()
@@ -17,26 +18,26 @@ const Users = () => {
   const { users } = useSelector((state) => state.user);
   const { roles } = useSelector((state) => state.role);
   const { titles } = useSelector((state) => state.title);
+ 
+  
+ 
 
   useQuery({
-    queryKey: ["getRoles"],
+    queryKey: ["getUsers"],
     queryFn: getUser,
     onSuccess: (res) => {
       dispatch(setUsers(res));
     },
   });
 
-useEffect(()=>{
-query.invalidateQueries('getRoles')
-},[query])
 
-  // useQuery({
-  //   queryKey: ["getRoles"],
-  //   queryFn: getRoles,
-  //   onSuccess: (res) => {
-  //     dispatch(setRoles(res));
-  //   },
-  // });
+  useQuery({
+    queryKey: ["getRoles"],
+    queryFn: getRoles,
+    onSuccess: (res) => {
+      dispatch(setRoles(res));
+    },
+  });
 
   useQuery({
     queryKey: ["getTitles"],

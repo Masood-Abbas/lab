@@ -13,13 +13,21 @@ import {
 } from "@/components/common/DialogTitle/DialogTitle";
 import { useMutation, useQueryClient } from "react-query";
 import { deleteBasicDetailOfPatient } from "@/api/requestApi/reqest";
+import { setRequests } from "@/store/request/requestSlice";
 
 const DeleteRequestModal = ({ handleClose, open,requestById }) => {
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (data) => deleteBasicDetailOfPatient(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getBasicDetailOfPatients");
+      axios
+      .get("http://localhost:5000/patient")
+      .then((response) => {
+        dispatch(setRequests(response));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
       handleClose();
       toast.success(res.message);
     },

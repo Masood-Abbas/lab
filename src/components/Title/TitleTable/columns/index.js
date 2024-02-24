@@ -1,76 +1,93 @@
-import moment from 'moment'
-import Button from '@mui/material/Button'
-import { setTitleRowSelected ,setDeleteTitleModal} from '@/store/title/titleSlice'
-import { BiEditAlt } from 'react-icons/bi'
-import DeleteIcon from '@mui/icons-material/Delete';
-import Tooltip from '@mui/material/Tooltip'
+import moment from "moment";
+import Button from "@mui/material/Button";
+import {
+  setTitleRowSelected,
+  setDeleteTitleModal,
+} from "@/store/title/titleSlice";
+import { BiEditAlt } from "react-icons/bi";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Tooltip from "@mui/material/Tooltip";
+import { IconButton } from "@mui/material";
 
-
-export const columns = ({ dispatch,openTitleModal }) => {
+export const columns = ({
+  dispatch,
+  openTitleModal,
+  updateTitlePermission,
+  deleteTitlePermission,
+}) => {
   const handleSelectRow = ({ row }) => {
-    openTitleModal()
-    dispatch(setTitleRowSelected(row))
-  }
+    openTitleModal();
+    dispatch(setTitleRowSelected(row));
+  };
 
-  const handleDeleteTitleModal =(row)=>{
-    dispatch(setTitleRowSelected(row))
-    dispatch(setDeleteTitleModal(true))
-  }
+  const handleDeleteTitleModal = (row) => {
+    dispatch(setTitleRowSelected(row));
+    dispatch(setDeleteTitleModal(true));
+  };
 
   return [
     {
-      key: '1',
-      field: 'id',
-      headerName: 'ID',
-      headerAlign: 'center',
-      align: 'center',
-      width: 50
+      key: "1",
+      field: "id",
+      headerName: "ID",
+      headerAlign: "center",
+      align: "center",
+      width: 50,
     },
     {
-      key: '2',
-      field: 'name',
-      headerName: 'Name',
+      key: "2",
+      field: "name",
+      headerName: "Name",
       minWidth: 150,
       flex: 1,
       renderCell: ({ row }) => {
         {
-          return <>{row?.name}</>
+          return <>{row?.name}</>;
         }
-      }
+      },
     },
-   
+
     {
-      key: '3',
-      field: 'createdAt',
-      headerName: 'Created At',
-      headerAlign: 'center',
-      align: 'center',
+      key: "3",
+      field: "createdAt",
+      headerName: "Created At",
+      headerAlign: "center",
+      align: "center",
       minWidth: 150,
       flex: 1,
       renderCell: ({ row }) => {
-        return <>{moment(row?.createdAt).format('MM-DD-YYYY HH:mm:ss')}</>
-      }
+        return <>{moment(row?.createdAt).format("MM-DD-YYYY HH:mm:ss")}</>;
+      },
     },
-    
+
     {
-      key: '5',
-      field: 'actions',
-      headerName: 'Actions',
-      headerAlign: 'center',
+      key: "5",
+      field: "actions",
+      headerName: "Actions",
+      headerAlign: "center",
       sortable: false,
       minWidth: 150,
       flex: 1,
       disableClickEventBubbling: true,
-      align: 'center',
+      align: "center",
       renderCell: ({ row }) => {
         return (
           <>
-              <DeleteIcon size={20} sx={{color:'red'}} onClick={()=>handleDeleteTitleModal(row)}/>
-              <BiEditAlt size={20} sx={{color:'primary'}}  onClick={() => handleSelectRow({ row })}/>
-            
+            <IconButton
+              disabled={!deleteTitlePermission}
+              onClick={() => handleDeleteTitleModal(row)}
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <IconButton
+              disabled={!updateTitlePermission}
+              onClick={() => handleSelectRow(row)}
+            >
+              <BiEditAlt sx={{ color: "primary" }} />
+            </IconButton>
           </>
-        )
-      }
-    }
-  ]
-}
+        );
+      },
+    },
+  ];
+};

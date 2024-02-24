@@ -103,6 +103,18 @@ export const columns = ({ dispatch, openRequestModal }) => {
       },
     },
     {
+      key: "30",
+      field: "age",
+      headerName: "Age",
+      headerAlign: "center",
+      align: "center",
+      minWidth: 150,
+      flex: 1,
+      renderCell: ({ row }) => {
+        return <>{row?.age}</>;
+      },
+    },
+    {
       key: "9",
       field: "status",
       headerName: "Status",
@@ -112,9 +124,28 @@ export const columns = ({ dispatch, openRequestModal }) => {
         {
           return (
             <>
-              <Chip  label="In Progress" sx={{backgroundColor:'purple'}}/>
+              <Chip
+                label="In Progress"
+                sx={{
+                  backgroundColor: "purple",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              />
             </>
           );
+        }
+      },
+    },
+    {
+      key: "19",
+      field: "Pdf Name",
+      headerName: "Pdf Name",
+      minWidth: 150,
+      flex: 1,
+      renderCell: ({ row }) => {
+        {
+          return <>{row?.pdfName ? row?.pdfName : "-"}</>;
         }
       },
     },

@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 
 const Header = ({ handleDrawerToggle }) => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   return (
     <AppBar

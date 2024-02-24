@@ -16,10 +16,12 @@ const RoleSelector = ({
 }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
+  
+
   const handleChange = (event, newValue) => {
     const selectedIds = newValue.map((option) => option.id);
     setSelectedOptions(newValue);
-    selectedIds, "0";
+    
     setValue("roles", selectedIds);
   };
 

@@ -1,15 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "@mui/material/Button";
 import DialogContent from "@mui/material/DialogContent";
 import { useForm } from "react-hook-form";
-import {
-  Box,
-  TextField,
-  Typography,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { toast } from "react-toastify";
 import {
@@ -17,17 +10,21 @@ import {
   BootstrapDialogTitle,
 } from "@/components/common/DialogTitle/DialogTitle";
 import Rating from "@mui/material/Rating";
-import { addUserSchema } from "@/schema/userSchema";
+import { addUserSchema, updateUserSchema } from "@/schema/userSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import emailjs from "emailjs-com";
 import { Grid, FormControl, InputLabel, Divider } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { useAddUser, useUpdateUser } from "@/api/userApi";
 import axios from "axios";
-import RoleSelector from "@/components/Users/AddUserForm/RoleSelector";
 import { useDispatch } from "react-redux";
-const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
+const AddUserModal = ({
+  open,
+  handleClose,
+  userById,
+  userTitles,
+  userRoles,
+}) => {
   const focusedInputRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -47,22 +44,35 @@ const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
       employeeNo: null,
       employeeType: null,
       lastName: null,
+      category: null,
       roles: [],
+      titles: [],
     },
-    resolver: yupResolver(addUserSchema),
+    resolver: yupResolver(userById?.id ? updateUserSchema : addUserSchema),
   });
 
-  const firstName = watch("firstName");
   const lastName = watch("lastName");
   const employeeNo = watch("employeeNo");
   const phoneNumber = watch("phoneNumber");
   const email = watch("email");
   const category = watch("category");
   const employeeType = watch("employeeType");
-  const roles = watch("roles")(roles, "ssssssss");
+  const roles = watch("roles");
+  const titles = watch("titles");
+
   const personnelHandleOnChange = (event) => {
     clearErrors("employeeType");
     setValue("employeeType", event?.target?.value);
+  };
+
+  const roleHandleOnChange = (event) => {
+    clearErrors("roles");
+    setValue("roles", event?.target?.value);
+  };
+
+  const titleHandleOnChange = (event) => {
+    clearErrors("titles");
+    setValue("titles", event?.target?.value);
   };
 
   const categoryHandleOnChange = (event) => {
@@ -70,41 +80,61 @@ const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
     setValue("category", event?.target?.value);
   };
 
-  const handleMutateSuccess = (response) => {
-    toast.success(response?.data?.message);
-    handleClose();
-  };
-
-  const handleMutateError = (error) => {
-    toast.error(error?.response?.data?.message);
-    handleClose();
-  };
+  useEffect(() => {
+    if (userById?.id) {
+      setValue("firstName", userById?.firstName);
+      setValue("lastName", userById?.lastName);
+      setValue("email", userById?.email);
+      setValue("phoneNumber", userById?.phoneNumber);
+      setValue("employeeType", userById?.employeeType);
+      setValue("category", userById?.category);
+      setValue("roles", userById?.roles[0]?.id);
+      setValue("titles", userById?.titles[0]?.id);
+      setValue("employeeNo", userById?.employeeNo);
+    }
+  }, [userById, setValue]);
 
   const onSubmit = (values) => {
     const userData = {
-      employee_no: values?.employeeNo,
+      employeeNo: values?.employeeNo,
       password: values?.password,
-      first_name: values?.firstName,
-      last_name: values?.lastName,
+      firstName: values?.firstName,
+      lastName: values?.lastName,
       email: values?.email,
-      employe_type: values?.employeeType,
+      employeeType: values?.employeeType,
       category: values?.category,
-      roles: roles,
+      roles: values?.roles,
+      phoneNumber: values?.phoneNumber,
+      titles: values?.titles,
     };
 
-    axios
-      .post("http://localhost:5000/user", userData)
-      .then((response) => {
-        toast.success(response?.data?.message);
-        handleClose();
-      })
-      .catch((error) => {
-        toast.error(error?.response?.data?.message);
-        handleClose();
-      });
+    if (userById?.id) {
+      axios
+        .patch(`http://localhost:5000/user`, userData)
+        .then((response) => {
+          toast.success(response?.data?.message);
+          handleClose();
+          fetchUserData();
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.message);
+          handleClose();
+        });
+    } else {
+      axios
+        .post("http://localhost:5000/user", userData)
+        .then((response) => {
+          toast.success(response?.data?.message);
+          handleClose();
+          fetchUserData();
+        })
+        .catch((error) => {
+          toast.error(error?.response?.data?.message);
+          handleClose();
+        });
+    }
   };
 
-  errors;
   return (
     <div>
       <BootstrapDialog
@@ -119,7 +149,7 @@ const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            Add User
+            {userById?.id ? "Update User" : "Add User"}
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -130,10 +160,6 @@ const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
                   sx={{ mb: 1 }}
                   label="First Name"
                   fullWidth
-                  focused={firstName}
-                  onFocus={() => {
-                    focusedInputRef.current = "firstName";
-                  }}
                   inputProps={{
                     autoComplete: "none",
                   }}
@@ -175,6 +201,7 @@ const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
                   label="Employee No"
                   fullWidth
                   error={!!errors["employeeNo"]}
+                  disabled={userById?.id ? true : false}
                   helperText={
                     errors["employeeNo"] ? errors["employeeNo"].message : ""
                   }
@@ -283,21 +310,55 @@ const AddUserModal = ({ open, handleClose, userById, titles, userRoles }) => {
                   {...register("phoneNumber")}
                 />
               </Grid>
+
               <Grid item xs={12} sm={6}>
-                {" "}
-                <RoleSelector
-                  userById={userById}
-                  setValue={setValue}
-                  roles={roles}
-                  error={errors?.roles?.message}
-                  clearErrors={clearErrors}
-                  dispatch={dispatch}
-                  userRole={userRoles}
-                />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                  <Select
+                    error={!!errors["roles"]}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={roles}
+                    label="Role"
+                    onChange={roleHandleOnChange}
+                  >
+                    {userRoles?.map((role) => {
+                      return (
+                        <MenuItem key={role?.id} value={role?.id}>
+                          {role?.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+
+                {errors?.roles && (
+                  <Typography color="error" sx={{ fontSize: "12px" }}>
+                    {errors.roles?.message}
+                  </Typography>
+                )}
               </Grid>
 
-              <Grid item xs={12}>
-                <Divider sx={{ my: 3, width: "100%" }} />
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Title</InputLabel>
+                  <Select
+                    error={!!errors["roles"]}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={titles}
+                    label="Title"
+                    onChange={titleHandleOnChange}
+                  >
+                    {userTitles?.map((title) => {
+                      return (
+                        <MenuItem key={title?.id} value={title?.id}>
+                          {title?.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
               </Grid>
 
               {/* <Grid item xs={12} sm={4} sx={{ mb: 1 }}>

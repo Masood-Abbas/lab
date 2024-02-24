@@ -48,10 +48,10 @@ const RequestTable = ({
           rowCount={row?.length}
           pagination={false}
           className="hide-pagination"
-          // onRowClick={(params) => {
-          //   router.push(`/request/patientDetail/${params.row.id}`)
+          onRowClick={(params) => {
+            router.push(`/request/patientDetail/${params.row.id}`)
 
-          // }}
+          }}
         />
       </div>
       {requestModal && (

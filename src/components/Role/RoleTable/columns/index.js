@@ -2,21 +2,24 @@ import moment from "moment";
 import Button from "@mui/material/Button";
 import { BiEditAlt } from "react-icons/bi";
 import Tooltip from "@mui/material/Tooltip";
-import { setRoleById, setDeleteRoleModal } from "@/store/role/roleSlice";
+import {
+  setRoleById,
+  setDeleteRoleModal,
+  setRoleModal,
+} from "@/store/role/roleSlice";
 import { Chip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
-export const columns = ({ dispatch, openRoleModal, permissions }) => {
-  const handleSelectRow = ({ row }) => {
-    openRoleModal();
+export const columns = ({
+  dispatch,
+  updateRolePermission,
+  deleteRolePermission,
+}) => {
+  const handleSelectRow = (row) => {
     dispatch(setRoleById(row));
+    dispatch(setRoleModal(true));
   };
-
-  function filterPermissionsByIds(permissionObjects, ids) {
-    return permissionObjects.filter((permission) =>
-      ids.includes(permission.id)
-    );
-  }
 
   const handleDeleteRoleModal = (row) => {
     dispatch(setRoleById(row));
@@ -92,16 +95,18 @@ export const columns = ({ dispatch, openRoleModal, permissions }) => {
       renderCell: ({ row }) => {
         return (
           <>
-            <DeleteIcon
-              size={20}
-              sx={{ color: "red" }}
+            <IconButton
+              disabled={!deleteRolePermission}
               onClick={() => handleDeleteRoleModal(row)}
-            />
-            <BiEditAlt
-              size={20}
-              sx={{ color: "primary" }}
-              onClick={() => handleSelectRow({ row })}
-            />
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <IconButton
+              disabled={!updateRolePermission}
+              onClick={() => handleSelectRow(row)}
+            >
+              <BiEditAlt sx={{ color: "primary" }} />
+            </IconButton>
           </>
         );
       },

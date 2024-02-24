@@ -1,6 +1,6 @@
 // ** React Imports
 import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useAuthLogin, useAuthUser } from "@/api/authApi/authApi";
 
@@ -56,6 +56,9 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [accessGranted, setAccessGranted] = useState(false);
   const [selectedButton, setSelectedButton] = useState("laboratoryMember");
+  const {user}=useSelector(state=>state.auth)
+
+  
 
   const handleButtonClick = (button) => {
     setSelectedButton(button);
@@ -74,12 +77,9 @@ const LoginPage = () => {
   });
   const { mutate: downloadReport } = useMutation({
     mutationFn: (data) => getReport(data),
-    // onSuccess: (data) => {
-    //   router.push("/home");
-    // },
-    // onError: (err) => {
-    //   router.push("/");
-    // },
+    onError:(err)=>{
+      toast.error('Not Found such report!')
+    }
   });
   const {
     register,
@@ -124,8 +124,7 @@ const LoginPage = () => {
       });
     } else {
       const data = { name: formData?.reportNumber?.trim() };
-      downloadReport(data);
-      // router.push(`http://localhost:5000/public/pdf/${formData?.reportNumber?.trim()}.pdf`)
+      downloadReport(data);      
     }
     formData;
   };

@@ -9,7 +9,7 @@ import { useState } from "react";
 import ContectModal from "@/pages/home/contectModal";
 import { useQuery } from "react-query";
 import { getUserByEmail } from "@/api/userApi";
-import { getFromLocalStorage } from "@/utils/utils";
+import useUserDataFetch, { getFromLocalStorage } from "@/utils/utils";
 
 const headingStyle = {
   textAlign: "center",
@@ -123,6 +123,7 @@ const services = [
 ];
 
 const Home = () => {
+  useUserDataFetch()
   const [open, setOpen] = useState(false);
   const handleOpenModal = () => {
     setOpen(true);

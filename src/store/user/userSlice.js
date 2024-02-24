@@ -8,33 +8,7 @@ export const userSlice = createSlice({
     deletedAssignSection: [],
     deletedAssignRoles: [],
     deletedAssignPermissions: [],
-    updateUserData: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      newSectionIds: '',
-      deletedUserSectionIds: '',
-      newRoleIds: '',
-      deletedUserRoleIds: '',
-      status: '',
-      category: '',
-      permissions: '',
-      userTitleIds: '',
-      isAssignAllSections: false
-    },
-    filterUser: {
-      name: '',
-      employeeNo: null,
-      status: null,
-      unit: null
-    },
-    userTitles: [],
-    uploadSign: '',
-    userSignAndStamp: null,
-    showUserSign: '',
-    uploadStamp: '',
-    showUserStamp: '',
-    userPage:1
+    
   },
   reducers: {
     setUsers: (state, action) => {

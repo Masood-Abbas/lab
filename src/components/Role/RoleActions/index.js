@@ -1,16 +1,18 @@
 import { Button, TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import {
-  setSearchRole
-} from "@/store/role/roleSlice";
-const RoleActions = ({ openRoleModal, dispatch,searchRoleName }) => {
-  const handleSearch = value => {
-    dispatch(setSearchRole(value?.trimStart()))
-   
-  }
+import { setSearchRole } from "@/store/role/roleSlice";
+import { checkPermissions } from "@/utils/utils";
+import { useSelector } from "react-redux";
+const RoleActions = ({ openRoleModal, dispatch, searchRoleName }) => {
+  const { user } = useSelector((state) => state.auth);
+  const addRolePermission = checkPermissions(5, user?.roles[0]?.permissions);
+
+  const handleSearch = (value) => {
+    dispatch(setSearchRole(value?.trimStart()));
+  };
   const resetSearch = () => {
-    dispatch(setSearchRole(''))
-  }
+    dispatch(setSearchRole(""));
+  };
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={4} lg={3}>
@@ -22,7 +24,7 @@ const RoleActions = ({ openRoleModal, dispatch,searchRoleName }) => {
           size="small"
           name="name"
           value={searchRoleName}
-          onChange={e => handleSearch(e?.target?.value)}
+          onChange={(e) => handleSearch(e?.target?.value)}
         />
       </Grid>
       <Grid item xs={2} md={4} lg={1}>
@@ -47,6 +49,7 @@ const RoleActions = ({ openRoleModal, dispatch,searchRoleName }) => {
             onClick={openRoleModal}
             variant="contained"
             sx={{ color: "#fff", fontWeight: 600, py: 1, mb: 1 }}
+            disabled={!addRolePermission}
           >
             Add New
           </Button>

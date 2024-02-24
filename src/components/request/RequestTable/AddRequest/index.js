@@ -27,8 +27,12 @@ import { checkUserAssignPermissions } from "@/utils/utils";
 import axios from "axios";
 import { useEffect } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-import { createBasicDetailOfPatient ,updateRequest} from "@/api/requestApi/reqest";
+import {
+  createBasicDetailOfPatient,
+  updateRequest,
+} from "@/api/requestApi/reqest";
 import { useQueryClient } from "react-query";
+import { setRequests } from "@/store/request/requestSlice";
 
 const AddRequest = ({ handleClose, open, requestById }) => {
   const queryClient = useQueryClient();
@@ -48,25 +52,29 @@ const AddRequest = ({ handleClose, open, requestById }) => {
       phoneNumber: null,
       test: null,
       gender: null,
+      pdfName: null,
+      age: null,
     },
     resolver: yupResolver(Requestschema),
   });
 
+  const pdfName = watch("pdfName");
   const gender = watch("gender");
   const test = watch("test");
 
-
   useEffect(() => {
     if (requestById?.id) {
-      setValue("firstName",requestById?.firstName);
-      setValue("lastName",requestById?.lastName);
-      setValue("CNIC",requestById?.CNIC);
-      setValue("email",requestById?.email);
-      setValue("phoneNumber",requestById?.phoneNumber);
-      setValue("test",requestById?.test);
-      setValue("gender",requestById?.gender);
+      setValue("pdfName", requestById?.pdfName);
+      setValue("firstName", requestById?.firstName);
+      setValue("lastName", requestById?.lastName);
+      setValue("CNIC", requestById?.CNIC);
+      setValue("email", requestById?.email);
+      setValue("phoneNumber", requestById?.phoneNumber);
+      setValue("test", requestById?.test);
+      setValue("gender", requestById?.gender);
+      setValue("age", requestById?.age);
     }
-  }, [setValue]);
+  }, [setValue, requestById]);
 
   const genderHandleOnChange = (event) => {
     clearErrors("gender");
@@ -78,20 +86,38 @@ const AddRequest = ({ handleClose, open, requestById }) => {
     setValue("test", newValue);
   };
 
-  const { mutate } = useMutation({
+  const { isLoading: createLoading, mutate } = useMutation({
     mutationFn: (data) => createBasicDetailOfPatient(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getBasicDetailOfPatients");
+      axios
+        .get("http://localhost:5000/patient")
+        .then((response) => {
+          dispatch(setRequests(response));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       handleClose();
       toast.success(res.message);
     },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
-  const { mutate:updateRequestData } = useMutation({
+  const { isLoading: updateLoading, mutate: updateRequestData } = useMutation({
     mutationFn: (data) => updateRequest(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getBasicDetailOfPatients");
+      axios
+        .get("http://localhost:5000/patient")
+        .then((response) => {
+          dispatch(setRequests(response));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       handleClose();
+
       toast.success(res.message);
     },
   });
@@ -105,14 +131,19 @@ const AddRequest = ({ handleClose, open, requestById }) => {
       gender: item?.gender,
       test: item?.test,
       CNIC: item?.CNIC,
+      pdfName: item?.pdfName,
+      age:item?.age
     };
-    if(requestById?.id){
-      data.id=requestById?.id
-      updateRequestData(data)
-    }else{
-    mutate(data);
+
+    if (requestById?.id) {
+      data.id = requestById?.id;
+      updateRequestData(data);
+    } else {
+      mutate(data);
     }
   };
+
+
   return (
     <div>
       <BootstrapDialog
@@ -156,6 +187,26 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                 }
                 {...register("lastName")}
               />
+
+              <TextField
+                sx={{ mb: 1 }}
+                label="Report Id"
+                fullWidth
+                error={!!errors["pdfName"]}
+                helperText={errors["pdfName"] ? errors["pdfName"].message : ""}
+                {...register("pdfName")}
+              />
+
+<TextField
+                sx={{ mb: 1 }}
+                label="Age"
+                fullWidth
+                error={!!errors["age"]}
+                helperText={errors["age"] ? errors["age"].message : ""}
+                {...register("age")}
+
+              />
+
               <TextField
                 sx={{ mb: 2 }}
                 label="Email"
@@ -164,6 +215,7 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                 helperText={errors["email"] ? errors["email"].message : ""}
                 {...register("email")}
               />
+
               <TextField
                 sx={{ mb: 2 }}
                 label="phoneNumber"
@@ -173,7 +225,6 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                   errors["phoneNumber"] ? errors["phoneNumber"].message : ""
                 }
                 {...register("phoneNumber")}
-               
               />
               <TextField
                 sx={{ mb: 2 }}
@@ -183,7 +234,6 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                 placeholder="35202-0909870-9"
                 helperText={errors["CNIC"] ? errors["CNIC"].message : ""}
                 {...register("CNIC")}
-              
               />
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
@@ -253,6 +303,7 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                     mt: "1rem",
                     color: "#fff",
                   }}
+                  loading={updateLoading || createLoading}
                 >
                   Save
                 </LoadingButton>

@@ -1,4 +1,7 @@
-import { FileOperationsEnum } from "@/utils/constants";
+import { setUser } from "@/store/auth/authSlice";
+import { FileOperationsEnum, allPermissions } from "@/utils/constants";
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 
 const authoritiesMap = new Map([
   [FileOperationsEnum.ADD_USER, "Add User"],
@@ -30,3 +33,38 @@ export const getFromLocalStorage = (key) => {
 
   return null;
 };
+
+const useUserDataFetch = () => {
+  const dispatch = useDispatch();
+  const fetchData = async (email) => {
+    try {
+      const response = await fetch(`http://localhost:5000/user/${email}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      dispatch(setUser(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const email = getFromLocalStorage("appEmail");
+
+    fetchData(email);
+  }, [fetchData]);
+};
+
+export default useUserDataFetch;
+
+export const checkPermissions = (permissionId, allPermissions) => {
+  return allPermissions?.some(
+    (permission) => permission === permissionId
+  );
+};
+

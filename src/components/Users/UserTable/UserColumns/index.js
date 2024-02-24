@@ -18,14 +18,9 @@ export const userColumns = ({ router, filterUser,setOpenAddUSerModal ,dispatch})
       minWidth: 140,
       flex: 1,
       renderCell: ({ row }) => (
-        <Tooltip title={`${row?.first_name} ${row?.last_name}`}>
+        <Tooltip title={`${row?.firstName} ${row?.lastName}`}>
           <div className='wrap-text'>
-            <Highlighter
-              highlightClassName='YourHighlightClass'
-              searchWords={[filterUser?.name]}
-              autoEscape={true}
-              textToHighlight={`${row?.first_name} ${row?.last_name}`}
-            />
+          {`${row?.firstName} ${row?.lastName}`}
           </div>
         </Tooltip>
       )
@@ -43,10 +38,10 @@ export const userColumns = ({ router, filterUser,setOpenAddUSerModal ,dispatch})
           <div className='wrap-text text-center'>
             <Highlighter
               highlightClassName='YourHighlightClass'
-              searchWords={[filterUser?.employee_no
+              searchWords={[filterUser?.employeeNo
               ]}
               autoEscape={true}
-              textToHighlight={row?.employee_no
+              textToHighlight={row?.employeeNo
                 ?.toString()}
             />
           </div>

@@ -4,7 +4,7 @@ import { userColumns } from "@/components/Users/UserTable/UserColumns";
 import TableEmpty from "@/components/common/TableEmpty";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { setFilterUser } from "@/store/user/userSlice";
+import { setFilterUser, setUserById } from "@/store/user/userSlice";
 import Pagination from "@mui/material/Pagination";
 import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
@@ -59,9 +59,10 @@ const Table = ({ row, roles, titles }) => {
     );
   };
 
-  const handleCloseAddUserModal = () => setOpenAddUSerModal(false);
+  const handleCloseAddUserModal = () => {
+    dispatch(setUserById({}));
+    setOpenAddUSerModal(false)};
 
-  const getRowId = (row) => row._id;
 
   return (
     <>
@@ -182,10 +183,7 @@ const Table = ({ row, roles, titles }) => {
           rowLength={100}
           pageSize={15}
           rowsPerPageOptions={[15]}
-          sortModel={sortModel}
-          onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
           rowCount={row?.length}
-          // getRowId={getRowId}
           disableColumnMenu
           disableRowSelectionOnClick
           hideFooterSelectedRowCount
@@ -196,7 +194,7 @@ const Table = ({ row, roles, titles }) => {
           open={openAddUserModal}
           handleClose={handleCloseAddUserModal}
           userById={userById}
-          titles={titles}
+          userTitles={titles}
           userRoles={roles}
         />
       }

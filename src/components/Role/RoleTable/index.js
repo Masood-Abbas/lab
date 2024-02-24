@@ -6,6 +6,7 @@ import TableEmpty from "@/components/common/TableEmpty";
 import AddRoleModal from "./AddRole/index";
 import { setRoleModal } from "@/store/role/roleSlice";
 import DeleteRoleModal from "./AddRole/DeleteRoleModal";
+import { checkPermissions } from "@/utils/utils";
 
 const Table = ({
   row,
@@ -14,8 +15,8 @@ const Table = ({
   deleteRoleModal,
   handleCloseDeleteRoleModal,
   roleById,
-  openRoleModal,
   permissions,
+  openRoleModal
 }) => {
   const [sortModel, setSortModel] = useState([
     {
@@ -24,8 +25,21 @@ const Table = ({
     },
   ]);
 
-  const handleRoleModalClose = () => {
-    ("hello");
+  const { user } = useSelector((state) => state.auth);
+  const updateRolePermission = checkPermissions(
+    6,
+    user?.roles[0]?.permissions
+  );
+  const deleteRolePermission = checkPermissions(
+    8,
+    user?.roles[0]?.permissions
+  );
+
+
+ 
+
+
+  const handleRoleModalClose = () => {    
     dispatch(setRoleModal(false));
   };
 
@@ -41,6 +55,8 @@ const Table = ({
             dispatch,
             openRoleModal,
             permissions,
+            updateRolePermission,
+            deleteRolePermission
           })}
           rowLength={100}
           pageSize={15}
