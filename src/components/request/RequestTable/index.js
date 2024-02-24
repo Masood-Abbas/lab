@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { columns } from "@/components/request/RequestTable/RequestColumns";
 import { useSelector } from "react-redux";
-import {
-  setRequestModal,
-} from  "@/store/request/requestSlice";
+import { setRequestModal } from "@/store/request/requestSlice";
 import TableEmpty from "@/components/common/TableEmpty";
 import AddRequest from "./AddRequest";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import DeleteRequestModal from "./AddRequest/DeleteRequestModal";
 const RequestTable = ({
   row,
@@ -19,8 +17,8 @@ const RequestTable = ({
   openRequestModal,
 }) => {
   const router = useRouter();
-  const { test } = router.query; 
-  console.log(test)
+  const { test } = router.query;
+  test;
   const [sortModel, setSortModel] = useState([
     {
       field: "name",
@@ -32,7 +30,6 @@ const RequestTable = ({
     dispatch(setRequestModal(false));
   };
 
-
   return (
     <>
       <div style={{ height: "70vh", width: "100%" }}>
@@ -41,7 +38,7 @@ const RequestTable = ({
             NoRowsOverlay: TableEmpty,
           }}
           rows={row}
-          sx={{cursor:'pointer'}}
+          sx={{ cursor: "pointer" }}
           columns={columns({ dispatch, openRequestModal })}
           rowLength={100}
           rowsPerPageOptions={[15]}
@@ -51,11 +48,10 @@ const RequestTable = ({
           rowCount={row?.length}
           pagination={false}
           className="hide-pagination"
-          onRowClick={(params) => {
-            router.push(`/request/patientDetail/${params.row.id}`)
-           
-           
-          }}
+          // onRowClick={(params) => {
+          //   router.push(`/request/patientDetail/${params.row.id}`)
+
+          // }}
         />
       </div>
       {requestModal && (

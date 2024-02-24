@@ -24,7 +24,7 @@ import { useMutation } from "react-query";
 import { createRole, updateRole } from "@/api/roleApi";
 import { useQueryClient } from "react-query";
 
-const AddRole = ({ handleClose, open, dispatch,  permissions,roleById }) => {
+const AddRole = ({ handleClose, open, dispatch, permissions, roleById }) => {
   const queryClient = useQueryClient();
   const [checkboxValues, setCheckboxValues] = useState({});
   const [selectedCheckboxIds, setSelectedCheckboxIds] = useState([]);
@@ -39,7 +39,7 @@ const AddRole = ({ handleClose, open, dispatch,  permissions,roleById }) => {
     },
   });
 
-  const { mutate:updateRoleData } = useMutation({
+  const { mutate: updateRoleData } = useMutation({
     mutationFn: (data) => updateRole(data),
     onSuccess: (res) => {
       queryClient.invalidateQueries("getRoles");
@@ -53,7 +53,7 @@ const AddRole = ({ handleClose, open, dispatch,  permissions,roleById }) => {
     setValue,
     register,
     handleSubmit,
-    
+
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -66,19 +66,21 @@ const AddRole = ({ handleClose, open, dispatch,  permissions,roleById }) => {
 
   useEffect(() => {
     if (roleById?.id) {
-      const userPermissionsIds = roleById?.permissions?.map(item => item)
-      setValue('name', roleById?.name)
-      setCheckboxValues(prevCheckboxValues => {
-        const updatedCheckboxValues = { ...prevCheckboxValues }
-        userPermissionsIds?.forEach(id => {
-          updatedCheckboxValues[id] = true
-        })
+      const userPermissionsIds = roleById?.permissions?.map((item) => item?.id)(
+        userPermissionsIds
+      );
+      setValue("name", roleById?.name);
+      setCheckboxValues((prevCheckboxValues) => {
+        const updatedCheckboxValues = { ...prevCheckboxValues };
+        userPermissionsIds?.forEach((id) => {
+          updatedCheckboxValues[id] = true;
+        });
 
-        return updatedCheckboxValues
-      })
-      setSelectedCheckboxIds(userPermissionsIds || [])
+        return updatedCheckboxValues;
+      });
+      setSelectedCheckboxIds(userPermissionsIds || []);
       if (permissions?.length === userPermissionsIds?.length) {
-        setSelectAll(true)
+        setSelectAll(true);
       }
     }
   }, [
@@ -86,9 +88,8 @@ const AddRole = ({ handleClose, open, dispatch,  permissions,roleById }) => {
     permissions?.length,
     roleById?.id,
     roleById?.name,
-    roleById?.permissions
-    
-  ])
+    roleById?.permissions,
+  ]);
 
   useEffect(() => {
     if (permissions?.length === selectedCheckboxIds?.length) {
@@ -103,12 +104,12 @@ const AddRole = ({ handleClose, open, dispatch,  permissions,roleById }) => {
       name: item?.name,
       permissions: selectedCheckboxIds,
     };
-    if(roleById?.id){
-      data.id=roleById?.id
-      updateRoleData(data)
-    }else{
+    if (roleById?.id) {
+      data.id = roleById?.id;
+      updateRoleData(data);
+    } else {
       mutate(data);
-    }    
+    }
   };
 
   const handleCheckboxChange = useCallback(

@@ -30,17 +30,18 @@ import EyeOutline from "mdi-material-ui/EyeOutline";
 import EyeOffOutline from "mdi-material-ui/EyeOffOutline";
 
 // ** States from Slice
-// import { setAuthenticated, setUser } from '@/store/auth/authSlice'
+import { setAuthenticated, setUser } from "@/store/auth/authSlice";
 import Loader from "@/components/common/Loader/Loader";
 import Grid from "@mui/material/Grid";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema ,reportSchema} from "@/schema/authSchema";
+import { loginSchema, reportSchema } from "@/schema/authSchema";
 import CircularProgress from "@mui/material/CircularProgress";
 import { loginUser } from "@/api/authApi/authApi";
-import {getReport} from '@/api/workflowInboxApi/index'
+import { getReport } from "@/api/workflowInboxApi/index";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { saveToLocalStorage } from "@/utils/utils";
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -71,7 +72,7 @@ const LoginPage = () => {
       router.push("/");
     },
   });
-  const { mutate:downloadReport } = useMutation({
+  const { mutate: downloadReport } = useMutation({
     mutationFn: (data) => getReport(data),
     // onSuccess: (data) => {
     //   router.push("/home");
@@ -88,9 +89,11 @@ const LoginPage = () => {
     defaultValues: {
       employeeNo: null,
       password: null,
-      reportNumber:null
+      reportNumber: null,
     },
-    resolver: yupResolver(selectedButton === "laboratoryMember" ?loginSchema:reportSchema),
+    resolver: yupResolver(
+      selectedButton === "laboratoryMember" ? loginSchema : reportSchema
+    ),
   });
 
   const handleMouseDownPassword = (event) => {
@@ -103,30 +106,28 @@ const LoginPage = () => {
       password: formData?.password,
     };
 
-    if(selectedButton === 'laboratoryMember'){
- // mutate(form, {
-    //   onSuccess: (data) => {
-    //     console.log(data);
-    //     document.cookie = `refresh_token=${data?.data?.refresh_token};path=/;`;
-    //     document.cookie = `access_token=${data?.data?.access_token};path=/;`;
-    //     // dispatch(setUser(data.data))
-    //     // dispatch(setAuthenticated(true))
-    //     router.push("/home");
-    //     toast.success("Successfully logged in");
-    //   },
-    //   onError: (err) => {
-    //     console.log(err)
-    //     toast.error(err?.response?.data);
-    //   },
-    // });
-    }else{
-      const data={name:formData?.reportNumber?.trim()}
-      downloadReport(data)
+    if (selectedButton === "laboratoryMember") {
+      mutate(form, {
+        onSuccess: (data) => {
+          data;
+          document.cookie = `refresh_token=${data?.data?.refresh_token};path=/;`;
+          document.cookie = `access_token=${data?.data?.access_token};path=/;`;
+          dispatch(setAuthenticated(true));
+          saveToLocalStorage("appEmail", form?.email);
+          router.push("/home");
+          toast.success("Successfully logged in");
+        },
+        onError: (err) => {
+          err;
+          toast.error(err?.response?.data);
+        },
+      });
+    } else {
+      const data = { name: formData?.reportNumber?.trim() };
+      downloadReport(data);
       // router.push(`http://localhost:5000/public/pdf/${formData?.reportNumber?.trim()}.pdf`)
     }
-    console.log(formData)
-
-   
+    formData;
   };
 
   return (
@@ -203,7 +204,7 @@ const LoginPage = () => {
                 </ButtonGroup>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  {selectedButton === "laboratoryMember" ?
+                  {selectedButton === "laboratoryMember" ? (
                     <>
                       <TextField
                         sx={{
@@ -299,40 +300,40 @@ const LoginPage = () => {
                         )}
                       </FormControl>
                     </>
-                  :
-                  <>
-                  <TextField
-                  sx={{
-                    "& label.Mui-focused": {
-                      color: "#18BBAAFF",
-                    },
-                    "& .MuiInput-underline:after": {
-                      borderColor: "#18BBAAFF",
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "#18BBAAFF",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#18BBAAFF",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#18BBAAFF",
-                      },
-                    },
-                  }}
-                  label="Report Number"
-                  fullWidth
-                  error={!!errors["reportNumber"]}
-                  {...register("reportNumber")}
-                />
-                {errors?.reportNumber && (
-                  <Typography color="error" sx={{ fontSize: "12px" }}>
-                    {errors.reportNumber?.message}
-                  </Typography>
-                )}
-                </>
-}
+                  ) : (
+                    <>
+                      <TextField
+                        sx={{
+                          "& label.Mui-focused": {
+                            color: "#18BBAAFF",
+                          },
+                          "& .MuiInput-underline:after": {
+                            borderColor: "#18BBAAFF",
+                          },
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: "#18BBAAFF",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "#18BBAAFF",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#18BBAAFF",
+                            },
+                          },
+                        }}
+                        label="Report Number"
+                        fullWidth
+                        error={!!errors["reportNumber"]}
+                        {...register("reportNumber")}
+                      />
+                      {errors?.reportNumber && (
+                        <Typography color="error" sx={{ fontSize: "12px" }}>
+                          {errors.reportNumber?.message}
+                        </Typography>
+                      )}
+                    </>
+                  )}
 
                   <Button
                     fullWidth

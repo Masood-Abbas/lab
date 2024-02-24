@@ -30,9 +30,10 @@ const DeleteInstrumentModal = ({
   const { mutate } = useMutation({
     mutationFn: (data) => deleteInstrument(data),
     onSuccess: (res) => {
+      toast.success(res.message);
       queryClient.invalidateQueries("getInstruments");
       handleClose();
-      toast.success(res.message);
+      
     },
   });
 

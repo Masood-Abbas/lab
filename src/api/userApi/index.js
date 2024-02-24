@@ -53,12 +53,26 @@ export function deleteUser(params) {
 }
 
 export function searchUser(params) {
-  console.log(params);
+  params;
   return new Promise((resolve, reject) => {
     api
       .get(`user/search?name=${params?.name}`)
       .then((res) => {
         resolve(res?.data); // Resolve the promise with the data
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+export function getUserByEmail(email) {
+  email;
+  return new Promise((resolve, reject) => {
+    api
+      .get(`user/${email}`)
+      .then((res) => {
+        resolve(res.data);
       })
       .catch((err) => {
         reject(err);
