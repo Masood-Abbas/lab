@@ -58,7 +58,6 @@ export function deleteInstrument(params) {
 
 
 export function searchInstrument(params) {
-  console.log(params)
   return new Promise((resolve, reject) => {
     api
       .get(`Instrument/search?name=${params?.name}`)

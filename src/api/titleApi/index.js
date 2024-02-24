@@ -53,7 +53,6 @@ export function deleteTitle(params) {
 }
 
 export function searchTitle(params) {
-  console.log(params);
   return new Promise((resolve, reject) => {
     api
       .get(`titles/search?name=${params?.name}`)

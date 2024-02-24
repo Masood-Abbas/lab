@@ -38,7 +38,7 @@ const Test = () => {
 
   const [patientDetail, setPatientDetail] = useState({});
   const router = useRouter();
-  console.log(router?.query?.test);
+  router?.query?.test;
 
   const { mutate } = useMutation({
     // mutationFn: (data) => getBasicDetailOfPatientById(data),
@@ -64,7 +64,7 @@ const Test = () => {
     mutate(router?.query?.test);
   }, [router]);
 
-  console.log(patientDetail);
+  patientDetail;
 
   return (
     <Box component="main" className="main-content">

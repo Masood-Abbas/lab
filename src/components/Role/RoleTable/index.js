@@ -25,7 +25,7 @@ const Table = ({
   ]);
 
   const handleRoleModalClose = () => {
-    console.log("hello");
+    ("hello");
     dispatch(setRoleModal(false));
   };
 
@@ -40,7 +40,7 @@ const Table = ({
           columns={columns({
             dispatch,
             openRoleModal,
-            permissions
+            permissions,
           })}
           rowLength={100}
           pageSize={15}

@@ -28,8 +28,9 @@ import axios from "axios";
 import { createTitle, updateTitle } from "@/api/titleApi/index";
 import { useMutation } from "react-query";
 
-const AddDesignation = ({ handleClose, open,titleRowSelected }) => {
+const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -44,9 +45,10 @@ const AddDesignation = ({ handleClose, open,titleRowSelected }) => {
   const { mutate } = useMutation({
     mutationFn: (data) => createTitle(data),
     onSuccess: (res) => {
+      res;
       queryClient.invalidateQueries("getTitles");
-      handleClose();
       toast.success(res.message);
+      handleClose();
     },
   });
 
@@ -54,26 +56,32 @@ const AddDesignation = ({ handleClose, open,titleRowSelected }) => {
     mutationFn: (data) => updateTitle(data),
     onSuccess: (res) => {
       queryClient.invalidateQueries("getTitles");
-      handleClose();
       toast.success(res.message);
+      handleClose();
     },
   });
 
-  useEffect(()=>{
-if(titleRowSelected?.id){
-  setValue('name',titleRowSelected?.name)
-}
-  },[setValue])
+  useEffect(() => {
+    return () => {
+      dispatch(setTitleRowSelected({}));
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (titleRowSelected?.id) {
+      setValue("name", titleRowSelected?.name);
+    }
+  }, [setValue, titleRowSelected]);
   const onSubmit = (item) => {
     const userData = {
       name: item?.name,
     };
-    if(titleRowSelected?.id){
-      userData.id=titleRowSelected?.id
-      updateTitleData(userData)
-    }else{
+    if (titleRowSelected?.id) {
+      userData.id = titleRowSelected?.id;
+      updateTitleData(userData);
+    } else {
       mutate(userData);
-    }    
+    }
   };
 
   return (
@@ -88,7 +96,7 @@ if(titleRowSelected?.id){
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            {titleRowSelected?.id?'Update Title':'Create New Title'}
+            {titleRowSelected?.id ? "Update Title" : "Create New Title"}
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>

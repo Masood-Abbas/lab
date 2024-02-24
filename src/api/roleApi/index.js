@@ -69,7 +69,6 @@ export function deleteRole(params) {
 
 
 export function searchRoles(params) {
-  console.log(params)
   return new Promise((resolve, reject) => {
     api
       .get(`role/search?name=${params?.name}`)

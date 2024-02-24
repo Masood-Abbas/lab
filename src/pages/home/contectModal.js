@@ -74,10 +74,10 @@ const ContectModal = ({ open, handleClose }) => {
         (response) => {
           toast.success(response.text);
           handleClose();
-          console.log("SUCCESS!", response.status, response.text);
+          "SUCCESS!", response.status, response.text;
         },
         (error) => {
-          console.log("FAILED...", error);
+          "FAILED...", error;
           toast.error(error);
         }
       );
