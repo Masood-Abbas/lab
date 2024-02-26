@@ -5,13 +5,14 @@ import {
   setRequestById,
   setDeleteRequestModal,
 } from "@/store/request/requestSlice";
-import { Chip } from "@mui/material";
+import { Button, Chip } from "@mui/material";
+import { TiTickOutline } from "react-icons/ti";
+import { useRouter } from "next/router";
 
-export const columns = ({ dispatch, openRequestModal }) => {
-  const handleSelectRow = ({ row }) => {
-    openRequestModal(true);
-    dispatch(setRequestById(row));
-  };
+export const columns = ({ dispatch, openRequestModal ,handleApprove,approveRequestPermission,
+  deleteRequestPermission,}) => {
+  
+  
   const handleDeleteRequestModal = (row) => {
     dispatch(setRequestById(row));
     dispatch(setDeleteRequestModal(true));
@@ -174,11 +175,40 @@ export const columns = ({ dispatch, openRequestModal }) => {
       renderCell: ({ row }) => {
         return (
           <>
-            <DeleteIcon
-              size={20}
-              sx={{ color: "red" }}
+            <Button
+              id="basic-button"
               onClick={() => handleDeleteRequestModal(row)}
-            />
+              color="primary"
+              disabled={!deleteRequestPermission}
+            >
+              <DeleteIcon size={20} sx={{ color: "red" }} />
+            </Button>
+
+            <Button
+              id="basic-button"
+              onClick={() => handleApprove(row)}
+              color="primary"
+              disabled={!approveRequestPermission}
+            >
+              <TiTickOutline size={20} sx={{ color: "green" }} />
+            </Button>
+
+            {/* <DeleteIcon
+              size={20}
+             
+              onClick={() => handleDeleteRequestModal(row)}
+            >
+            
+            </DeleteIcon> */}
+
+            {/* <Button
+            
+              size={20}
+              sx={{ color: "green" }}
+            >
+              <TiTickOutline />
+            </Button> */}
+
             {/* <BiEditAlt size={20} sx={{color:'primary'}}  onClick={() => handleSelectRow({ row })}/> */}
           </>
         );

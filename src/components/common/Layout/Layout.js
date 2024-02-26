@@ -21,8 +21,6 @@ const AdminLayout = ({ children, roles = null }) => {
   const [accessGranted, setAccessGranted] = useState(false);
   const { authenticated } = useSelector((state) => state.auth);
 
-  
-
   useEffect(() => {
     if (authenticated) {
       return;

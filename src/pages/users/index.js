@@ -10,17 +10,26 @@ import { getRoles } from "@/api/roleApi";
 import { setTitles } from "@/store/title/titleSlice";
 import { getTitle } from "@/api/titleApi/index";
 import { getUser } from "@/api/userApi/index";
-import useUserDataFetch from "@/utils/utils";
+import useUserDataFetch, { checkPermissions } from "@/utils/utils";
+import { useRouter } from "next/router";
 
 const Users = () => {
-  const query=useQueryClient()
+  const query = useQueryClient();
+  const router = useRouter();
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.user);
   const { roles } = useSelector((state) => state.role);
   const { titles } = useSelector((state) => state.title);
- 
-  
- 
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const checkPermission = checkPermissions(4, user?.roles[0]?.permissions);
+
+    if (!checkPermission) {
+      router.push("/404");
+    }
+  }, [router, user]);
 
   useQuery({
     queryKey: ["getUsers"],
@@ -29,7 +38,6 @@ const Users = () => {
       dispatch(setUsers(res));
     },
   });
-
 
   useQuery({
     queryKey: ["getRoles"],

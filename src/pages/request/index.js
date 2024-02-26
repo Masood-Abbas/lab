@@ -13,14 +13,22 @@ import {
 import { useQuery } from "react-query";
 import { getBasicDetailOfPatient } from "@/api/requestApi/reqest";
 import Loader from "@/components/common/Loader/Loader";
-import useUserDataFetch from "@/utils/utils";
+import { checkPermissions } from "@/utils/utils";
+import { useRouter } from "next/router";
 
 const Request = () => {
   const dispatch = useDispatch();
-  useUserDataFetch()
-
+  const router = useRouter();
   const { requests, requestModal, deleteRequestModal, requestById } =
-    useSelector((state) => state.request);  
+    useSelector((state) => state.request);
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const checkPermission = checkPermissions(18, user?.roles[0]?.permissions);
+    if (!checkPermission) {
+      router.push("/404");
+    }
+  }, [router, user]);
 
   const { isLoading } = useQuery({
     queryKey: ["getBasicDetailOfPatients"],
