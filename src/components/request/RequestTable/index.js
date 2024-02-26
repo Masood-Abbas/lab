@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { columns } from "@/components/request/RequestTable/RequestColumns";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import TableEmpty from "@/components/common/TableEmpty";
 import AddRequest from "./AddRequest";
 import { useRouter } from "next/router";
 import DeleteRequestModal from "./AddRequest/DeleteRequestModal";
+import { checkPermissions } from "@/utils/utils";
 const RequestTable = ({
   row,
   dispatch,
@@ -25,9 +26,23 @@ const RequestTable = ({
       sort: "asc",
     },
   ]);
+  const { user } = useSelector((state) => state.auth);
+
+  const approveRequestPermission = checkPermissions(
+    19,
+    user?.roles[0]?.permissions
+  );
+  const deleteRequestPermission = checkPermissions(
+    20,
+    user?.roles[0]?.permissions
+  );
 
   const handleRequestModalClose = () => {
     dispatch(setRequestModal(false));
+  };
+
+  const handleApprove = (row) => {
+    router.push(`/request/patientDetail/${row?.id}`);
   };
 
   return (
@@ -39,7 +54,13 @@ const RequestTable = ({
           }}
           rows={row}
           sx={{ cursor: "pointer" }}
-          columns={columns({ dispatch, openRequestModal })}
+          columns={columns({
+            dispatch,
+            openRequestModal,
+            handleApprove,
+            approveRequestPermission,
+            deleteRequestPermission,
+          })}
           rowLength={100}
           rowsPerPageOptions={[15]}
           sortModel={sortModel}
@@ -48,10 +69,6 @@ const RequestTable = ({
           rowCount={row?.length}
           pagination={false}
           className="hide-pagination"
-          onRowClick={(params) => {
-            router.push(`/request/patientDetail/${params.row.id}`)
-
-          }}
         />
       </div>
       {requestModal && (

@@ -17,7 +17,8 @@ import { Grid, FormControl, InputLabel, Divider } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkPermissions } from "@/utils/utils";
 const AddUserModal = ({
   open,
   handleClose,
@@ -27,6 +28,7 @@ const AddUserModal = ({
 }) => {
   const focusedInputRef = useRef(null);
   const dispatch = useDispatch();
+  
 
   const {
     watch,

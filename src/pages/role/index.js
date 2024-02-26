@@ -35,7 +35,7 @@ const Role = () => {
     const checkPermission = checkPermissions(7, user?.roles[0]?.permissions);
 
     if (!checkPermission) {
-      // router.push("/404");
+      router.push("/404");
     }
   }, [router, user]);
 
