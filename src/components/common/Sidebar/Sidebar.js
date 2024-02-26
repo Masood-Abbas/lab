@@ -18,7 +18,6 @@ import Divider from "@mui/material/Divider";
 import { useRouter } from "next/router";
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { SiHomebridge } from "react-icons/si";
-import { getMenuList, menu } from "./MenuList";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -170,6 +169,28 @@ const Sidebar = (props) => {
                 />
               </ListItemIcon>
               <ListItemText primary="Request" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
+
+      <List>
+        <Link href="/approved-requests" passHref>
+          <ListItem disablePadding className="truncate-text">
+            <ListItemButton
+              className={router?.pathname === "/approved-requests" ? "active" : ""}
+              sx={styles}
+            >
+              <ListItemIcon>
+                <SiHomebridge
+                  className={
+                    router?.pathname === "/approved-requests"
+                      ? "active-icon"
+                      : "inactive-icon"
+                  }
+                />
+              </ListItemIcon>
+              <ListItemText primary="Approved Requests" />
             </ListItemButton>
           </ListItem>
         </Link>

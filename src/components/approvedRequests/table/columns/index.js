@@ -7,15 +7,8 @@ import {
 } from "@/store/request/requestSlice";
 import { Chip } from "@mui/material";
 
-export const columns = ({ dispatch, openRequestModal }) => {
-  const handleSelectRow = ({ row }) => {
-    openRequestModal(true);
-    dispatch(setRequestById(row));
-  };
-  const handleDeleteRequestModal = (row) => {
-    dispatch(setRequestById(row));
-    dispatch(setDeleteRequestModal(true));
-  };
+export const columns = () => {
+  
   return [
     {
       key: "1",
@@ -161,27 +154,6 @@ export const columns = ({ dispatch, openRequestModal }) => {
         return <>{moment(row?.createdAt).format("MM-DD-YYYY HH:mm:ss")}</>;
       },
     },
-    {
-      key: "5",
-      field: "actions",
-      headerName: "Actions",
-      headerAlign: "center",
-      sortable: false,
-      minWidth: 150,
-      flex: 1,
-      disableClickEventBubbling: true,
-      align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <>
-            <DeleteIcon
-              size={20}
-              sx={{ color: "red" }}
-              onClick={() => handleDeleteRequestModal(row)}
-            />
-          </>
-        );
-      },
-    },
+   
   ];
 };
