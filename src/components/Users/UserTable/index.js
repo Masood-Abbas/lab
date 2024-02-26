@@ -13,22 +13,41 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, TextField } from "@mui/material";
 import AddUserModal from "../AddUserForm/addUserModal";
+import { checkPermissions } from "@/utils/utils";
+import DeleteUserModal from "../AddUserForm/deleteUserModal";
 
 const Table = ({ row, roles, titles }) => {
-  const [sortModel, setSortModel] = useState([
-    {
-      field: "firstName",
-      sort: "asc",
-    },
-  ]);
-
-  const [openAddUserModal, setOpenAddUSerModal] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const [openAddUserModal, setOpenAddUSerModal] = useState(false);
+  const [openDeleteUserModal, setOpenDeleteUSerModal] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const addUserPermission = checkPermissions(1, user?.roles[0]?.permissions);
+  const updateUserPermission = checkPermissions(
+    2,
+    user?.roles[0]?.permissions
+  );
+  const deleteUserPermission = checkPermissions(
+    3,
+    user?.roles[0]?.permissions
+  );
   const { filterUser, userById } = useSelector((state) => state.user);
   const [userSearchType, setUserSearchType] = useState("name");
   const [status, setStatus] = useState(filterUser?.status);
+
+
+const handleOpenDeleteModal=(row)=>{
+  setOpenDeleteUSerModal(true)
+  dispatch(setUserById(row))
+}
+
+  
+  const handleCloseDeleteModal=()=>{
+    setOpenDeleteUSerModal(false)
+    dispatch(setUserById({}))
+}
+
+  
 
   const handleChangeRolesSearchType = (event) => {
     setUserSearchType(event.target.value);
@@ -61,8 +80,8 @@ const Table = ({ row, roles, titles }) => {
 
   const handleCloseAddUserModal = () => {
     dispatch(setUserById({}));
-    setOpenAddUSerModal(false)};
-
+    setOpenAddUSerModal(false);
+  };
 
   return (
     <>
@@ -160,6 +179,7 @@ const Table = ({ row, roles, titles }) => {
               onClick={() => setOpenAddUSerModal(true)}
               variant="contained"
               sx={{ color: "#fff", fontWeight: 600, py: 1, mb: 1 }}
+              disabled={!addUserPermission}
             >
               Add New
             </Button>
@@ -179,6 +199,9 @@ const Table = ({ row, roles, titles }) => {
             filterUser,
             setOpenAddUSerModal,
             dispatch,
+            updateUserPermission,
+            deleteUserPermission,
+            handleOpenDeleteModal
           })}
           rowLength={100}
           pageSize={15}
@@ -198,6 +221,8 @@ const Table = ({ row, roles, titles }) => {
           userRoles={roles}
         />
       }
+
+      <DeleteUserModal open={openDeleteUserModal} handleClose={handleCloseDeleteModal} userById={userById}/>
     </>
   );
 };

@@ -25,13 +25,17 @@ export const saveToLocalStorage = (key, value) => {
     localStorage.setItem(key, value);
   }
 };
-
 export const getFromLocalStorage = (key) => {
-  if (typeof window !== undefined) {
+  if (typeof window !== 'undefined' && window.localStorage) {
     return localStorage.getItem(key);
   }
-
   return null;
+};
+
+export const deleteFromLocalStorage = (key) => {
+  if (typeof window !== undefined&& window.localStorage) {
+    localStorage.removeItem(key);
+  }
 };
 
 const useUserDataFetch = () => {

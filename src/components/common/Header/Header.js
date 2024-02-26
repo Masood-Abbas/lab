@@ -4,11 +4,34 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Link from "next/link";
-import { Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Button, Typography } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { FaCircleUser } from "react-icons/fa6";
+import { ConfirmationDialog } from "./LogoutConfirmation";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { deleteFromLocalStorage } from "@/utils/utils";
+import { setAuthenticated } from "@/store/auth/authSlice";
 
 const Header = ({ handleDrawerToggle }) => {
   const { user } = useSelector((state) => state.auth);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirm = () => {
+    setOpen(false);
+    dispatch(setAuthenticated(false));
+    router.push("/");
+  };
 
   return (
     <AppBar
@@ -44,12 +67,22 @@ const Header = ({ handleDrawerToggle }) => {
             {"DigiLab"}
           </Typography>
         </Toolbar>
-        <Box sx={{ ml: "auto", width: "auto" }}>
-          <Typography sx={{ fontSize: "1rem" }}>
+        <Box sx={{ display: "flex", ml: "auto", width: "auto" }}>
+          <Typography sx={{ fontSize: "1rem", mt: 1 }}>
             {user?.firstName} {user?.lastName}
           </Typography>
+          <Button>
+            <FaCircleUser size={24} onClick={handleOpen} />
+          </Button>
         </Box>
       </Box>
+      {open && (
+        <ConfirmationDialog
+          open={open}
+          onClose={handleClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </AppBar>
   );
 };

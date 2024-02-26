@@ -56,9 +56,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [accessGranted, setAccessGranted] = useState(false);
   const [selectedButton, setSelectedButton] = useState("laboratoryMember");
-  const {user}=useSelector(state=>state.auth)
-
-  
+  const { user } = useSelector((state) => state.auth);
 
   const handleButtonClick = (button) => {
     setSelectedButton(button);
@@ -66,9 +64,10 @@ const LoginPage = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const { mutate, isLoading: loginLoading } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data) => loginUser(data),
     onSuccess: (data) => {
+      saveToLocalStorage("access_token", data?.data);
       router.push("/home");
     },
     onError: (err) => {
@@ -77,9 +76,9 @@ const LoginPage = () => {
   });
   const { mutate: downloadReport } = useMutation({
     mutationFn: (data) => getReport(data),
-    onError:(err)=>{
-      toast.error('Not Found such report!')
-    }
+    onError: (err) => {
+      toast.error("Not Found such report!");
+    },
   });
   const {
     register,
@@ -124,7 +123,7 @@ const LoginPage = () => {
       });
     } else {
       const data = { name: formData?.reportNumber?.trim() };
-      downloadReport(data);      
+      downloadReport(data);
     }
     formData;
   };

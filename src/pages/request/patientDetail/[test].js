@@ -7,6 +7,8 @@ import { Typography, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { checkPermissions } from "@/utils/utils";
 
 const Test = () => {
   const {
@@ -40,7 +42,15 @@ const Test = () => {
 
   const [patientDetail, setPatientDetail] = useState({});
   const router = useRouter();
-  router?.query?.test;
+  
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const checkPermission = checkPermissions(18, user?.roles[0]?.permissions);
+    if (!checkPermission) {
+      router.push("/404");
+    }
+  }, [router, user]);
 
   const { mutate } = useMutation({
     mutationFn: (data) => {
@@ -54,6 +64,7 @@ const Test = () => {
         setPatientDetail(res);
       }
     },
+    
   });
 
   useEffect(() => {
@@ -61,7 +72,6 @@ const Test = () => {
   }, [router, mutate]);
 
   const onSubmit = (formData) => {
-    console.log(formData);
     const data = {
       email: patientDetail[0]?.email,
       pdfName: patientDetail[0]?.pdfName,
