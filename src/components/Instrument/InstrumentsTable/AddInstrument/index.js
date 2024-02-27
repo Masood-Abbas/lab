@@ -20,7 +20,7 @@ import { checkPermissions } from "@/utils/utils";
 
 const AddInstrument = ({ handleClose, open, instrumentRowSelected }) => {
   const queryClient = useQueryClient();
- 
+
 
   const {
     register,
@@ -38,6 +38,7 @@ const AddInstrument = ({ handleClose, open, instrumentRowSelected }) => {
   const { mutate } = useMutation({
     mutationFn: (data) => createInstrument(data),
     onSuccess: (res) => {
+      res;
       queryClient.invalidateQueries("getInstruments");
       handleClose();
       toast.success(res.message);
