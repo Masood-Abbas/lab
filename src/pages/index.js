@@ -74,7 +74,7 @@ const LoginPage = () => {
       router.push("/");
     },
   });
-  const { mutate: downloadReport } = useMutation({
+  const { mutate: downloadReport,isLoading } = useMutation({
     mutationFn: (data) => getReport(data),
     onError: (err) => {
       toast.error("Not Found such report!");
@@ -130,7 +130,7 @@ const LoginPage = () => {
 
   return (
     <>
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <Loader />}
       <Box className="login-page">
         <Grid container spacing={2}>
           <Grid item xs={12} lg={7} className="login-side-image div-center">

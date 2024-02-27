@@ -84,6 +84,7 @@ const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
     }
   };
 
+
   return (
     <div>
       <BootstrapDialog

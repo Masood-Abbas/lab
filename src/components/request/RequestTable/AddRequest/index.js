@@ -102,6 +102,7 @@ const AddRequest = ({ handleClose, open, requestById }) => {
     },
     onError: (error) => {
       console.log(error);
+      toast.error(error.response.data.message);
     },
   });
 
@@ -132,7 +133,8 @@ const AddRequest = ({ handleClose, open, requestById }) => {
       test: item?.test,
       CNIC: item?.CNIC,
       pdfName: item?.pdfName,
-      age:item?.age
+      age: item?.age,
+      reportStatus: "pending",
     };
 
     if (requestById?.id) {
@@ -142,7 +144,6 @@ const AddRequest = ({ handleClose, open, requestById }) => {
       mutate(data);
     }
   };
-
 
   return (
     <div>
@@ -197,14 +198,13 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                 {...register("pdfName")}
               />
 
-<TextField
+              <TextField
                 sx={{ mb: 1 }}
                 label="Age"
                 fullWidth
                 error={!!errors["age"]}
                 helperText={errors["age"] ? errors["age"].message : ""}
                 {...register("age")}
-
               />
 
               <TextField

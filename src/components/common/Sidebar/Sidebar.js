@@ -18,7 +18,6 @@ import Divider from "@mui/material/Divider";
 import { useRouter } from "next/router";
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { SiHomebridge } from "react-icons/si";
-import { getMenuList, menu } from "./MenuList";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -27,6 +26,9 @@ import { capitalize } from "lodash";
 import { WORKFLOW_ROUTES, FileOperationsEnum } from "@/utils/constants";
 import { userContainsRoles } from "@/utils/utils";
 import { checkUserAssignPermissions } from "@/utils/utils";
+import BuildIcon from '@mui/icons-material/Build';
+import Person2Icon from '@mui/icons-material/Person2';
+
 
 const Sidebar = (props) => {
   const router = useRouter();
@@ -73,7 +75,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <Person2Icon
                   className={
                     router?.pathname === "/users"
                       ? "active-icon"
@@ -139,7 +141,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <BuildIcon
                   className={
                     router?.pathname === "/instrument"
                       ? "active-icon"
@@ -170,6 +172,28 @@ const Sidebar = (props) => {
                 />
               </ListItemIcon>
               <ListItemText primary="Request" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
+
+      <List>
+        <Link href="/approved-requests" passHref>
+          <ListItem disablePadding className="truncate-text">
+            <ListItemButton
+              className={router?.pathname === "/approved-requests" ? "active" : ""}
+              sx={styles}
+            >
+              <ListItemIcon>
+                <SiHomebridge
+                  className={
+                    router?.pathname === "/approved-requests"
+                      ? "active-icon"
+                      : "inactive-icon"
+                  }
+                />
+              </ListItemIcon>
+              <ListItemText primary="Approved Requests" />
             </ListItemButton>
           </ListItem>
         </Link>

@@ -55,6 +55,7 @@ export function getBasicDetailOfPatientById(params) {
 
 
 export function updateRequest(params) {
+
   return new Promise((resolve, reject) => {
     api
       .patch(`patient/${params?.id}`, params)
