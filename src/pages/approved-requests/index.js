@@ -5,6 +5,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
+import Loader from "@/components/common/Loader/Loader";
 
 const ApprovedRequest = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,8 @@ const ApprovedRequest = () => {
 
   return (
     <Box component="main" className="main-content">
-      <h1 style={{marginBottom:'30px'}}>Approved Reports</h1>
+      {isLoading && <Loader />}
+      <h1 style={{ marginBottom: "30px" }}>Approved Reports</h1>
       <ApprovedRequestTable row={requests} />
     </Box>
   );

@@ -90,14 +90,13 @@ const Test = () => {
       id: patientDetail[0]?.id,
       reportStatus: "Done",
     };
-  
 
     axios
       .post("http://localhost:5000/bloodreport", data)
       .then((response) => {
         toast.success(response?.data?.message);
         router?.push("/request");
-        mutateUpdateStatus(requestData)
+        mutateUpdateStatus(requestData);
       })
 
       .catch((error) => {

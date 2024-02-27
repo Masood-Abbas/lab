@@ -17,12 +17,28 @@ export const laboratoryTests = ["Complete Blood Count (CBC)"];
 export const FileOperationsEnum = {
   ADD_USER: "add_user",
   UPDATE_USER: "update_user",
-  VIEW_USER: "view_users",
+  VIEW_USER: "view_user",
   DELETE_USER: "delete_user",
+
   ADD_ROLE: "add_role",
   UPDATE_ROLE: "update_role",
   VIEW_ROLE: "view_role",
   DELETE_ROLE: "delete_role",
+
+  ADD_TITLE: "add_tittle",
+  UPDATE_TITLE: "update_tittle",
+  VIEW_TITLE: "view_tittle",
+  DELETE_TITLE: "delete_tittle",
+
+  ADD_INSTRUMENT: "add_Instrument",
+  UPDATE_INSTRUMENT: "update_Instrument",
+  VIEW_INSTRUMENT: "view_Instrument",
+  DELETE_INSTRUMENT: "delete_Instrument",
+
+  ADD_REQUEST: "add_request",
+  UPDATE_REQUEST: "update_request",
+  VIEW_REQUEST: "view_Instrument",
+  DELETE_REQUEST: "delete_request",
 };
 
 export const allPermissions = [

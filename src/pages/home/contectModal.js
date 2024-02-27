@@ -96,7 +96,7 @@ const ContectModal = ({ open, handleClose }) => {
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            Feeback
+            Any Query
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
@@ -146,7 +146,7 @@ const ContectModal = ({ open, handleClose }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <FormControl fullWidth>
-                    <InputLabel htmlFor="my-textarea">Review</InputLabel>
+                    <InputLabel htmlFor="my-textarea">Query</InputLabel>
                     <TextareaAutosize
                       id="my-textarea"
                       minRows={5}
@@ -159,20 +159,6 @@ const ContectModal = ({ open, handleClose }) => {
                 </Grid>
               </Grid>
 
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ pt: 4 }}
-              >
-                <Box component="fieldset" borderColor="transparent">
-                  <Rating
-                    name="rating"
-                    value={rating}
-                    onChange={handleRatingChange}
-                  />
-                </Box>
-              </Box>
               <Box
                 sx={{
                   display: "flex",

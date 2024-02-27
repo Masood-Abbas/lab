@@ -7,35 +7,20 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { Collapse, Typography } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import Divider from "@mui/material/Divider";
 import { useRouter } from "next/router";
-import { AiOutlineFieldTime } from "react-icons/ai";
 import { SiHomebridge } from "react-icons/si";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import CircleIcon from "@mui/icons-material/Circle";
-import Tooltip from "@mui/material/Tooltip";
-import { capitalize } from "lodash";
-import { WORKFLOW_ROUTES, FileOperationsEnum } from "@/utils/constants";
-import { userContainsRoles } from "@/utils/utils";
-import { checkUserAssignPermissions } from "@/utils/utils";
-import BuildIcon from '@mui/icons-material/Build';
-import Person2Icon from '@mui/icons-material/Person2';
-
+import BuildIcon from "@mui/icons-material/Build";
+import Person2Icon from "@mui/icons-material/Person2";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import BusinessIcon from "@mui/icons-material/Business";
+import StarsIcon from "@mui/icons-material/Stars";
+import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 
 const Sidebar = (props) => {
   const router = useRouter();
 
   const { window, handleDrawerToggle, open, drawerWidth } = props;
-
- 
 
   const styles = {
     fontSize: "1.375rem",
@@ -53,7 +38,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <BusinessIcon
                   className={
                     router?.pathname === "/Home"
                       ? "active-icon"
@@ -61,7 +46,9 @@ const Sidebar = (props) => {
                   }
                 />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText
+                primary={<span style={{ textDecoration: "none" }}>Home</span>}
+              />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -97,7 +84,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <StarsIcon
                   className={
                     router?.pathname === "/title"
                       ? "active-icon"
@@ -163,7 +150,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <CreateNewFolderIcon
                   className={
                     router?.pathname === "/request"
                       ? "active-icon"
@@ -181,11 +168,13 @@ const Sidebar = (props) => {
         <Link href="/approved-requests" passHref>
           <ListItem disablePadding className="truncate-text">
             <ListItemButton
-              className={router?.pathname === "/approved-requests" ? "active" : ""}
+              className={
+                router?.pathname === "/approved-requests" ? "active" : ""
+              }
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <AssignmentTurnedInIcon
                   className={
                     router?.pathname === "/approved-requests"
                       ? "active-icon"
@@ -216,7 +205,7 @@ const Sidebar = (props) => {
         open={open}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
           display: { xs: "block", sm: "none" },

@@ -12,6 +12,18 @@ const authoritiesMap = new Map([
   [FileOperationsEnum.UPDATE_ROLE, "Edit Role"],
   [FileOperationsEnum.VIEW_ROLE, "View Role"],
   [FileOperationsEnum.DELETE_ROLE, "Delete Role"],
+  [FileOperationsEnum.ADD_TITLE, "Add Title"],
+  [FileOperationsEnum.UPDATE_TITLE, "Edit Title"],
+  [FileOperationsEnum.VIEW_TITLE, "View Title"],
+  [FileOperationsEnum.DELETE_TITLE, "Delete Title"],
+  [FileOperationsEnum.ADD_INSTRUMENT, "Add Instrument"],
+  [FileOperationsEnum.UPDATE_INSTRUMENT, "Edit Instrument"],
+  [FileOperationsEnum.VIEW_INSTRUMENT, "View Instrument"],
+  [FileOperationsEnum.DELETE_INSTRUMENT, "Delete Instrument"],
+  [FileOperationsEnum.ADD_REQUEST, "Add Request"],
+  [FileOperationsEnum.UPDATE_REQUEST, "Edit Request"],
+  [FileOperationsEnum.VIEW_REQUEST, "View Request"],
+  [FileOperationsEnum.DELETE_REQUEST, "Delete Request"],
 ]);
 
 const defaultAuthority = (value) => value;

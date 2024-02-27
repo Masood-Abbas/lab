@@ -38,6 +38,8 @@ export const columns = ({
     {
       key: "2",
       field: "role",
+      align: "center",
+      headerAlign: "center",
       headerName: "Role",
       minWidth: 150,
       flex: 1,

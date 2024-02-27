@@ -34,7 +34,11 @@ const Request = () => {
     queryKey: ["getBasicDetailOfPatients"],
     queryFn: getBasicDetailOfPatient,
     onSuccess: (res) => {
-      dispatch(setRequests(res));
+      console.log(res);
+      let filteredData = res?.filter(
+        (request) => request?.reportStatus === "pending"
+      );
+      dispatch(setRequests(filteredData));
     },
   });
 

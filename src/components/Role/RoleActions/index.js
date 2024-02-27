@@ -15,28 +15,10 @@ const RoleActions = ({ openRoleModal, dispatch, searchRoleName }) => {
   };
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={4} lg={3}>
-        <TextField
-          sx={{ mb: 1 }}
-          label="Search by Role"
-          id="name"
-          fullWidth
-          size="small"
-          name="name"
-          value={searchRoleName}
-          onChange={(e) => handleSearch(e?.target?.value)}
-        />
+      <Grid item xs={12} md={4} lg={4}>
+        <h1 style={{marginBottom:'30px'}}>Roles</h1>
       </Grid>
-      <Grid item xs={2} md={4} lg={1}>
-        <Button
-          variant="contained"
-          sx={{ color: "#fff", fontWeight: 600, py: 1, mb: 1 }}
-          onClick={resetSearch}
-        >
-          Reset
-        </Button>
-      </Grid>
-
+     
       <Grid
         item
         xs={10}

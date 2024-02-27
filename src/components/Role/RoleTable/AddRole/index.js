@@ -66,7 +66,7 @@ const AddRole = ({ handleClose, open, dispatch, permissions, roleById }) => {
 
   useEffect(() => {
     if (roleById?.id) {
-      const userPermissionsIds = roleById?.permissions?.map((item) => item?.id)
+      const userPermissionsIds = roleById?.permissions?.map((item) => item?.id);
       setValue("name", roleById?.name);
       setCheckboxValues((prevCheckboxValues) => {
         const updatedCheckboxValues = { ...prevCheckboxValues };
@@ -172,7 +172,7 @@ const AddRole = ({ handleClose, open, dispatch, permissions, roleById }) => {
           onClose={handleClose}
         >
           <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            Create New Role
+            {roleById?.id ? "Update Role" : "Create  Role"}
           </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>

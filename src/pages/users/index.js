@@ -12,6 +12,7 @@ import { getTitle } from "@/api/titleApi/index";
 import { getUser } from "@/api/userApi/index";
 import useUserDataFetch, { checkPermissions } from "@/utils/utils";
 import { useRouter } from "next/router";
+import Loader from "@/components/common/Loader/Loader";
 
 const Users = () => {
   const query = useQueryClient();
@@ -31,7 +32,7 @@ const Users = () => {
     }
   }, [router, user]);
 
-  useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["getUsers"],
     queryFn: getUser,
     onSuccess: (res) => {
@@ -61,6 +62,7 @@ const Users = () => {
       className="main-content"
       style={{ fontSize: 30, paddingTop: "30px" }}
     >
+      {isLoading && <Loader />}
       <Table row={users} roles={roles} titles={titles} />
     </div>
   );

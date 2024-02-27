@@ -8,8 +8,8 @@ import {
   setDeleteTitleModal,
 } from "@/store/title/titleSlice";
 import TableEmpty from "@/components/common/TableEmpty";
-import AddDesignation from "./AddDesignation";
-import DeleteTitleDesignation from "./AddDesignation/DeleteTitleModal";
+import AddDesignation from "./AddTitle";
+import DeleteTitleDesignation from "./AddTitle/DeleteTitleModal";
 import { checkPermissions } from "@/utils/utils";
 
 const Table = ({
