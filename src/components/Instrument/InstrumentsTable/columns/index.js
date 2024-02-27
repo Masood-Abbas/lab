@@ -13,7 +13,7 @@ export const columns = ({
   updateInstrumentPermission,
   deleteInstrumentPermission,
 }) => {
-  const handleSelectRow = ({ row }) => {
+  const handleSelectRow = (row ) => {
     openInstrumentModal();
     dispatch(setInstrumentRowSelected(row));
   };

@@ -1,6 +1,9 @@
 import { Box, Button, Divider, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getBasicDetailOfPatientById } from "@/api/requestApi/reqest";
+import {
+  getBasicDetailOfPatientById,
+  updateRequest,
+} from "@/api/requestApi/reqest";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 import { Typography, TextField } from "@mui/material";
@@ -42,7 +45,7 @@ const Test = () => {
 
   const [patientDetail, setPatientDetail] = useState({});
   const router = useRouter();
-  
+
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -64,12 +67,15 @@ const Test = () => {
         setPatientDetail(res);
       }
     },
-    
   });
 
   useEffect(() => {
     mutate(router?.query?.test);
   }, [router, mutate]);
+
+  const { mutate: mutateUpdateStatus } = useMutation({
+    mutationFn: (data) => updateRequest(data),
+  });
 
   const onSubmit = (formData) => {
     const data = {
@@ -80,12 +86,20 @@ const Test = () => {
       ...formData,
     };
 
+    const requestData = {
+      id: patientDetail[0]?.id,
+      reportStatus: "Done",
+    };
+  
+
     axios
       .post("http://localhost:5000/bloodreport", data)
       .then((response) => {
         toast.success(response?.data?.message);
-        router?.push('/request')
+        router?.push("/request");
+        mutateUpdateStatus(requestData)
       })
+
       .catch((error) => {
         toast.error(error?.response?.data?.message);
       });
@@ -234,8 +248,7 @@ const Test = () => {
                 autoComplete: "none",
               }}
               fullWidth
-
-              {...register('mch')}
+              {...register("mch")}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -246,8 +259,7 @@ const Test = () => {
                 autoComplete: "none",
               }}
               fullWidth
-
-              {...register('mchc')}
+              {...register("mchc")}
             />
           </Grid>{" "}
           <Grid item xs={12} sm={6}>

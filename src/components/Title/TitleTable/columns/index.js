@@ -15,7 +15,7 @@ export const columns = ({
   updateTitlePermission,
   deleteTitlePermission,
 }) => {
-  const handleSelectRow = ({ row }) => {
+  const handleSelectRow = (row ) => {
     openTitleModal();
     dispatch(setTitleRowSelected(row));
   };

@@ -15,9 +15,8 @@ const ApprovedRequest = () => {
     queryFn: getBasicDetailOfPatient,
     onSuccess: (res) => {
       let filteredData = res?.filter(
-        (request) => request?.reportStatus === "done"
+        (request) => request?.reportStatus === "Done"
       );
-      console.log(filteredData);
       dispatch(setRequests(filteredData));
     },
   });

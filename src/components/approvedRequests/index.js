@@ -4,8 +4,15 @@ import TableEmpty from "@/components/common/TableEmpty";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import { getReport } from "@/api/workflowInboxApi";
 const ApprovedRequestTable = ({ row }) => {
   const router = useRouter();
+
+  const { mutate: downloadReport } = useMutation({
+    mutationFn: (data) => getReport(data),
+    
+  });
 
   const [sortModel, setSortModel] = useState([
     {
@@ -13,6 +20,13 @@ const ApprovedRequestTable = ({ row }) => {
       sort: "asc",
     },
   ]);
+
+  const handleApproveOnRow = (params) => {
+    const data={
+      name:params?.pdfName
+    }
+    downloadReport(data)
+  };
 
   return (
     <>
@@ -23,7 +37,7 @@ const ApprovedRequestTable = ({ row }) => {
           }}
           rows={row}
           sx={{ cursor: "pointer" }}
-          columns={columns()}
+          columns={columns({handleApproveOnRow})}
           rowLength={100}
           rowsPerPageOptions={[15]}
           sortModel={sortModel}
@@ -32,9 +46,7 @@ const ApprovedRequestTable = ({ row }) => {
           rowCount={row?.length}
           pagination={false}
           className="hide-pagination"
-          onRowClick={(params) => {
-            router.push(`/request/patientDetail/${params.row.id}`);
-          }}
+          
         />
       </div>
     </>

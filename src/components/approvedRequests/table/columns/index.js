@@ -5,19 +5,11 @@ import {
   setRequestById,
   setDeleteRequestModal,
 } from "@/store/request/requestSlice";
-import { Chip } from "@mui/material";
+import { Chip, IconButton } from "@mui/material";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
-export const columns = () => {
-  
+export const columns = ({ handleApproveOnRow }) => {
   return [
-    {
-      key: "1",
-      field: "id",
-      headerName: "ID",
-      headerAlign: "center",
-      align: "center",
-      width: 50,
-    },
     {
       key: "2",
       field: "name",
@@ -118,9 +110,9 @@ export const columns = () => {
           return (
             <>
               <Chip
-                label="In Progress"
+                label="Done"
                 sx={{
-                  backgroundColor: "purple",
+                  backgroundColor: "green",
                   color: "white",
                   fontWeight: "bold",
                 }}
@@ -132,28 +124,19 @@ export const columns = () => {
     },
     {
       key: "19",
-      field: "Pdf Name",
-      headerName: "Pdf Name",
+      field: "Download Requests",
+      headerName: "Download Requests",
       minWidth: 150,
       flex: 1,
       renderCell: ({ row }) => {
-        {
-          return <>{row?.pdfName ? row?.pdfName : "-"}</>;
-        }
+        return (
+          <>
+            <IconButton onClick={() => handleApproveOnRow(row)}>
+              <CloudDownloadIcon sx={{ color: "blue", fontSize: "2.5rem" }} />
+            </IconButton>
+          </>
+        );
       },
     },
-    {
-      key: "3",
-      field: "createdAt",
-      headerName: "Created At",
-      headerAlign: "center",
-      align: "center",
-      minWidth: 150,
-      flex: 1,
-      renderCell: ({ row }) => {
-        return <>{moment(row?.createdAt).format("MM-DD-YYYY HH:mm:ss")}</>;
-      },
-    },
-   
   ];
 };

@@ -26,14 +26,14 @@ export const saveToLocalStorage = (key, value) => {
   }
 };
 export const getFromLocalStorage = (key) => {
-  if (typeof window !== 'undefined' && window.localStorage) {
+  if (typeof window !== "undefined" && window.localStorage) {
     return localStorage.getItem(key);
   }
   return null;
 };
 
 export const deleteFromLocalStorage = (key) => {
-  if (typeof window !== undefined&& window.localStorage) {
+  if (typeof window !== undefined && window.localStorage) {
     localStorage.removeItem(key);
   }
 };
@@ -67,8 +67,5 @@ const useUserDataFetch = () => {
 export default useUserDataFetch;
 
 export const checkPermissions = (permissionId, allPermissions) => {
-  return allPermissions?.some(
-    (permission) => permission === permissionId
-  );
+  return allPermissions?.some((permission) => permission === permissionId);
 };
-

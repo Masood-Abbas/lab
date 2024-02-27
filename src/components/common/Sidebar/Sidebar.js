@@ -26,6 +26,9 @@ import { capitalize } from "lodash";
 import { WORKFLOW_ROUTES, FileOperationsEnum } from "@/utils/constants";
 import { userContainsRoles } from "@/utils/utils";
 import { checkUserAssignPermissions } from "@/utils/utils";
+import BuildIcon from '@mui/icons-material/Build';
+import Person2Icon from '@mui/icons-material/Person2';
+
 
 const Sidebar = (props) => {
   const router = useRouter();
@@ -72,7 +75,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <Person2Icon
                   className={
                     router?.pathname === "/users"
                       ? "active-icon"
@@ -138,7 +141,7 @@ const Sidebar = (props) => {
               sx={styles}
             >
               <ListItemIcon>
-                <SiHomebridge
+                <BuildIcon
                   className={
                     router?.pathname === "/instrument"
                       ? "active-icon"
