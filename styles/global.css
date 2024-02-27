@@ -28,6 +28,10 @@
   code[class*='language-'] {
     padding: 0;
   }
+  a{
+    text-decoration: none;
+    color: #028885;
+  }
   .login-page {
   
     width: 100%;

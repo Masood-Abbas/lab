@@ -34,7 +34,7 @@ const Sidebar = (props) => {
         <Link href="/home" passHref>
           <ListItem disablePadding className="truncate-text">
             <ListItemButton
-              className={router?.pathname === "/Home" ? "active" : ""}
+              className={router?.pathname === "/Home" ? "active" : " "}
               sx={styles}
             >
               <ListItemIcon>
@@ -58,7 +58,7 @@ const Sidebar = (props) => {
         <Link href="/users" passHref>
           <ListItem disablePadding className="truncate-text">
             <ListItemButton
-              className={router?.pathname === "/users" ? "active" : ""}
+              className={router?.pathname === "/users" ? "active" : " "}
               sx={styles}
             >
               <ListItemIcon>
