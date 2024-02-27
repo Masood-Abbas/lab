@@ -231,7 +231,7 @@ const AddRequest = ({ handleClose, open, requestById }) => {
                 label="CNIC"
                 fullWidth
                 error={!!errors["CNIC"]}
-                placeholder="35202-0909870-9"
+                placeholder="3520209098709"
                 helperText={errors["CNIC"] ? errors["CNIC"].message : ""}
                 {...register("CNIC")}
               />

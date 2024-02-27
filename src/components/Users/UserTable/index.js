@@ -23,31 +23,21 @@ const Table = ({ row, roles, titles }) => {
   const [openDeleteUserModal, setOpenDeleteUSerModal] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const addUserPermission = checkPermissions(1, user?.roles[0]?.permissions);
-  const updateUserPermission = checkPermissions(
-    2,
-    user?.roles[0]?.permissions
-  );
-  const deleteUserPermission = checkPermissions(
-    3,
-    user?.roles[0]?.permissions
-  );
+  const updateUserPermission = checkPermissions(2, user?.roles[0]?.permissions);
+  const deleteUserPermission = checkPermissions(3, user?.roles[0]?.permissions);
   const { filterUser, userById } = useSelector((state) => state.user);
   const [userSearchType, setUserSearchType] = useState("name");
   const [status, setStatus] = useState(filterUser?.status);
 
+  const handleOpenDeleteModal = (row) => {
+    setOpenDeleteUSerModal(true);
+    dispatch(setUserById(row));
+  };
 
-const handleOpenDeleteModal=(row)=>{
-  setOpenDeleteUSerModal(true)
-  dispatch(setUserById(row))
-}
-
-  
-  const handleCloseDeleteModal=()=>{
-    setOpenDeleteUSerModal(false)
-    dispatch(setUserById({}))
-}
-
-  
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteUSerModal(false);
+    dispatch(setUserById({}));
+  };
 
   const handleChangeRolesSearchType = (event) => {
     setUserSearchType(event.target.value);
@@ -85,93 +75,16 @@ const handleOpenDeleteModal=(row)=>{
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={4} lg={3}>
-          <FormControl size="small" fullWidth>
-            <InputLabel id="demo-simple-select-label">Filter by</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={userSearchType}
-              label="Filter By"
-              onChange={handleChangeRolesSearchType}
-            >
-              <MenuItem value="name">Name</MenuItem>
-              <MenuItem value="employeeNo">Employee No</MenuItem>
-              <MenuItem value="status">Status</MenuItem>
-              <MenuItem value="unit">Unit</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} md={4} lg={3}>
-          {userSearchType === "name" ? (
-            <TextField
-              sx={{ mb: 1 }}
-              label="Search by Name"
-              id="name"
-              fullWidth
-              size="small"
-              name="name"
-              value={filterUser?.name}
-              onChange={(e) => handleSearch(e?.target?.value, e?.target?.name)}
-            />
-          ) : userSearchType === "employeeNo" ? (
-            <TextField
-              sx={{ mb: 1 }}
-              label="Search by Employee No"
-              id="employeeNo"
-              fullWidth
-              size="small"
-              name="employeeNo"
-              value={filterUser?.employeeNo}
-              onChange={(e) => handleSearch(e?.target?.value, e?.target?.name)}
-              type="number"
-            />
-          ) : userSearchType === "status" ? (
-            <FormControl size="small" fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Filter by Status
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={status}
-                name="isActive"
-                label="Filter By Status"
-                onChange={handleChangeStatusSearchType}
-              >
-                <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="inactive">Inactive</MenuItem>
-              </Select>
-            </FormControl>
-          ) : (
-            <TextField
-              sx={{ mb: 1 }}
-              label="Search by Unit"
-              id="unit"
-              fullWidth
-              size="small"
-              name="unit"
-              value={filterUser?.unit}
-              onChange={(e) => handleSearch(e?.target?.value, e?.target?.name)}
-            />
-          )}
-        </Grid>
-        <Grid item xs={2} md={4} lg={1}>
-          <Button
-            onClick={resetSearch}
-            variant="contained"
-            sx={{ color: "#fff", fontWeight: 600, py: 1, mb: 1 }}
-          >
-            Reset
-          </Button>
+      <Grid container>
+        <Grid item xs={12} md={4} lg={4}>
+          <h3 style={{ marginBottom: "30px" }}>Users</h3>
         </Grid>
 
         <Grid
           item
           xs={10}
           md={4}
-          lg={5}
+          lg={8}
           sx={{ display: "flex", justifyContent: "flex-end" }}
         >
           <div>
@@ -201,7 +114,7 @@ const handleOpenDeleteModal=(row)=>{
             dispatch,
             updateUserPermission,
             deleteUserPermission,
-            handleOpenDeleteModal
+            handleOpenDeleteModal,
           })}
           rowLength={100}
           pageSize={15}
@@ -222,7 +135,11 @@ const handleOpenDeleteModal=(row)=>{
         />
       }
 
-      <DeleteUserModal open={openDeleteUserModal} handleClose={handleCloseDeleteModal} userById={userById}/>
+      <DeleteUserModal
+        open={openDeleteUserModal}
+        handleClose={handleCloseDeleteModal}
+        userById={userById}
+      />
     </>
   );
 };
