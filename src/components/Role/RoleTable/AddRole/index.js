@@ -24,27 +24,34 @@ import { useMutation } from "react-query";
 import { createRole, updateRole } from "@/api/roleApi";
 import { useQueryClient } from "react-query";
 
-const AddRole = ({ handleClose, open, dispatch, permissions, roleById }) => {
+const AddRole = ({
+  handleClose,
+  open,
+  dispatch,
+  permissions,
+  roleById,
+  refetch,
+}) => {
   const queryClient = useQueryClient();
   const [checkboxValues, setCheckboxValues] = useState({});
   const [selectedCheckboxIds, setSelectedCheckboxIds] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading: createLoading } = useMutation({
     mutationFn: (data) => createRole(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getRoles");
       handleClose();
       toast.success(res.message);
+      refetch();
     },
   });
 
-  const { mutate: updateRoleData } = useMutation({
+  const { mutate: updateRoleData, isLoading: updateLoading } = useMutation({
     mutationFn: (data) => updateRole(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getRoles");
       handleClose();
       toast.success(res.message);
+      refetch();
     },
   });
 
@@ -236,6 +243,7 @@ const AddRole = ({ handleClose, open, dispatch, permissions, roleById }) => {
                     mt: "1rem",
                     color: "#fff",
                   }}
+                  loading={updateLoading || createLoading}
                 >
                   Save
                 </LoadingButton>

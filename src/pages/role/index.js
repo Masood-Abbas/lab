@@ -47,7 +47,7 @@ const Role = () => {
     },
   });
 
-  const { isLoading } = useQuery({
+  const { isLoading,refetch } = useQuery({
     queryKey: ["getRoles"],
     queryFn: getRoles,
     onSuccess: (res) => {
@@ -84,6 +84,7 @@ const Role = () => {
             roleById={roleById}
             openRoleModal={openRoleModal}
             permissions={permissions}
+            refetch={refetch}
           />
         )}
       </>

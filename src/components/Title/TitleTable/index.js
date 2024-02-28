@@ -20,6 +20,7 @@ const Table = ({
   handleCloseDeleteTitleModal,
   titleRowSelected,
   openTitleModal,
+  refetch
 }) => {
   const [sortModel, setSortModel] = useState([
     {
@@ -71,6 +72,7 @@ const Table = ({
           open={titleModal}
           handleClose={handleTitleModalClose}
           titleRowSelected={titleRowSelected}
+          refetch={refetch}
         />
       )}
       {deleteTitleModal && (
@@ -79,6 +81,7 @@ const Table = ({
           handleClose={handleCloseDeleteTitleModal}
           titleRowSelected={titleRowSelected}
           dispatch={dispatch}
+          refetch={refetch}
         />
       )}
     </>

@@ -11,29 +11,22 @@ import {
   BootstrapDialog,
   BootstrapDialogTitle,
 } from "@/components/common/DialogTitle/DialogTitle";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { FileOperationsEnum } from "@/utils/constants";
-import { checkUserAssignPermissions } from "@/utils/utils";
-import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+
+import { useMutation } from "react-query";
 import { deleteInstrument } from "@/api/instrumentApi/index";
 
 const DeleteInstrumentModal = ({
   handleClose,
   open,
   instrumentRowSelected,
+  refetch,
 }) => {
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationFn: (data) => deleteInstrument(data),
     onSuccess: (res) => {
       toast.success(res.message);
-      queryClient.invalidateQueries("getInstruments");
       handleClose();
-      
+      refetch();
     },
   });
 
@@ -60,9 +53,11 @@ const DeleteInstrumentModal = ({
           <Box sx={{ minWidth: 500 }}>
             <Typography>Are you sure to delete this instrument?</Typography>
             <Typography>
-            <b>Name:</b>{instrumentRowSelected?.name}
-              <br/>
-              <b>ID:</b>{instrumentRowSelected?.id}
+              <b>Name:</b>
+              {instrumentRowSelected?.name}
+              <br />
+              <b>ID:</b>
+              {instrumentRowSelected?.id}
             </Typography>
 
             <Box
@@ -87,6 +82,7 @@ const DeleteInstrumentModal = ({
                 className="btn-primary"
                 sx={{ py: "0.55rem", px: "1.5rem", mt: "1rem", color: "#fff" }}
                 onClick={handleDeleteInstrument}
+                loading={isLoading}
               >
                 Save
               </LoadingButton>

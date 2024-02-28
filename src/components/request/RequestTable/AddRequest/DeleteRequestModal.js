@@ -15,27 +15,20 @@ import { useMutation, useQueryClient } from "react-query";
 import { deleteBasicDetailOfPatient } from "@/api/requestApi/reqest";
 import { setRequests } from "@/store/request/requestSlice";
 
-const DeleteRequestModal = ({ handleClose, open,requestById }) => {
+const DeleteRequestModal = ({ handleClose, open, requestById, refetch }) => {
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationFn: (data) => deleteBasicDetailOfPatient(data),
     onSuccess: (res) => {
-      axios
-      .get("http://localhost:5000/patient")
-      .then((response) => {
-        dispatch(setRequests(response));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-      handleClose();
       toast.success(res.message);
+      handleClose();
+      refetch();
     },
   });
 
- const deleteHandler = () =>{
-    mutate(requestById?.id)
- }
+  const deleteHandler = () => {
+    mutate(requestById?.id);
+  };
 
   return (
     <div>
@@ -58,17 +51,23 @@ const DeleteRequestModal = ({ handleClose, open,requestById }) => {
               Are you sure to delete this patient basic delete?
             </Typography>
             <Typography>
-            <b>Name:</b>{requestById?.firstName} {requestById?.lastName}
-              <br/>
-              <b>ID:</b>{requestById?.id}
-              <br/>
-              <b>Test:</b>{requestById?.test}
-              <br/>
-              <b>Gender:</b>{requestById?.gender}
-              <br/>
-              <b>Email:</b>{requestById?.email}
-              <br/>
-              <b>Phone Number:</b>{requestById?.phoneNumber}
+              <b>Name:</b>
+              {requestById?.firstName} {requestById?.lastName}
+              <br />
+              <b>ID:</b>
+              {requestById?.id}
+              <br />
+              <b>Test:</b>
+              {requestById?.test}
+              <br />
+              <b>Gender:</b>
+              {requestById?.gender}
+              <br />
+              <b>Email:</b>
+              {requestById?.email}
+              <br />
+              <b>Phone Number:</b>
+              {requestById?.phoneNumber}
             </Typography>
 
             <Box
@@ -93,6 +92,7 @@ const DeleteRequestModal = ({ handleClose, open,requestById }) => {
                 className="btn-primary"
                 sx={{ py: "0.55rem", px: "1.5rem", mt: "1rem", color: "#fff" }}
                 onClick={deleteHandler}
+                loading={isLoading}
               >
                 Confirm
               </LoadingButton>

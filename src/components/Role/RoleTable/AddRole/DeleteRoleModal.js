@@ -7,17 +7,16 @@ import {
   BootstrapDialog,
   BootstrapDialogTitle,
 } from "@/components/common/DialogTitle/DialogTitle";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { deleteRole } from "@/api/roleApi/index";
 
-const DeleteRoleModal = ({ handleClose, open,roleById }) => {
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation({
+const DeleteRoleModal = ({ handleClose, open,roleById ,refetch}) => {
+  const { mutate,isLoading } = useMutation({
     mutationFn: (data) => deleteRole(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getRoles");
       handleClose();
       toast.success(res.message);
+      refetch()
     },
   });
 
@@ -74,6 +73,7 @@ const DeleteRoleModal = ({ handleClose, open,roleById }) => {
                 className="btn-primary"
                 sx={{ py: "0.55rem", px: "1.5rem", mt: "1rem", color: "#fff" }}
                 onClick={deleteHandler}
+                loading={isLoading}
               >
                 Confirm
               </LoadingButton>

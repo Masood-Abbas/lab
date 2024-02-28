@@ -19,6 +19,7 @@ const InstrumentTable = ({
   handleCloseDeleteInstrumentModal,
   instrumentRowSelected,
   openInstrumentModal,
+  refetch
 }) => {
   const { user } = useSelector((state) => state.auth);
   const updateInstrumentPermission = checkPermissions(
@@ -61,6 +62,7 @@ const InstrumentTable = ({
           instrumentRowSelected={instrumentRowSelected}
           open={instrumentModal}
           handleClose={handleInstrumentModalClose}
+          refetch={refetch}
         />
       )}
       {deleteInstrumentModal && (
@@ -69,6 +71,7 @@ const InstrumentTable = ({
           handleClose={handleCloseDeleteInstrumentModal}
           instrumentRowSelected={instrumentRowSelected}
           dispatch={dispatch}
+          refetch={refetch}
         />
       )}
     </>

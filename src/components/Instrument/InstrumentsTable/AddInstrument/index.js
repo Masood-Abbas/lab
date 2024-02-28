@@ -13,14 +13,18 @@ import {
   BootstrapDialogTitle,
 } from "@/components/common/DialogTitle/DialogTitle";
 import { useMutation } from "react-query";
-import axios from "axios";  
+import axios from "axios";
 import { useEffect } from "react";
 import { createInstrument, updateInstrument } from "@/api/instrumentApi";
 import { checkPermissions } from "@/utils/utils";
 
-const AddInstrument = ({ handleClose, open, instrumentRowSelected }) => {
+const AddInstrument = ({
+  handleClose,
+  open,
+  instrumentRowSelected,
+  refetch,
+}) => {
   const queryClient = useQueryClient();
- 
 
   const {
     register,
@@ -35,23 +39,24 @@ const AddInstrument = ({ handleClose, open, instrumentRowSelected }) => {
     resolver: yupResolver(instrumentSchema),
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading: createLoading } = useMutation({
     mutationFn: (data) => createInstrument(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getInstruments");
       handleClose();
+      refetch();
       toast.success(res.message);
     },
   });
 
-  const { mutate: updateInstrumentData } = useMutation({
-    mutationFn: (data) => updateInstrument(data),
-    onSuccess: (res) => {
-      queryClient.invalidateQueries("getInstruments");
-      handleClose();
-      toast.success(res.message);
-    },
-  });
+  const { mutate: updateInstrumentData, isLoading: updateLoading } =
+    useMutation({
+      mutationFn: (data) => updateInstrument(data),
+      onSuccess: (res) => {
+        handleClose();
+        refetch();
+        toast.success(res.message);
+      },
+    });
 
   useEffect(() => {
     if (instrumentRowSelected?.id) {
@@ -139,6 +144,7 @@ const AddInstrument = ({ handleClose, open, instrumentRowSelected }) => {
                     mt: "1rem",
                     color: "#fff",
                   }}
+                  loading={updateLoading || createLoading}
                 >
                   Save
                 </LoadingButton>

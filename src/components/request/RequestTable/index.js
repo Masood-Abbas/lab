@@ -16,6 +16,7 @@ const RequestTable = ({
   handleCloseDeleteInstrumentModal,
   requestById,
   openRequestModal,
+  refetch
 }) => {
   const router = useRouter();
   const { test } = router.query;
@@ -76,6 +77,7 @@ const RequestTable = ({
           requestById={requestById}
           open={requestModal}
           handleClose={handleRequestModalClose}
+          refetch={refetch}
         />
       )}
       {deleteInstrumentModal && (
@@ -84,6 +86,7 @@ const RequestTable = ({
           handleClose={handleCloseDeleteInstrumentModal}
           requestById={requestById}
           dispatch={dispatch}
+          refetch={refetch}
         />
       )}
     </>

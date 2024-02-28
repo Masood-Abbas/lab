@@ -10,15 +10,15 @@ import {
 import { useMutation, useQueryClient } from "react-query";
 import { deleteUser } from "@/api/userApi";
 
-const DeleteUserModal = ({ handleClose, open, userById }) => {
-  const { mutate } = useMutation({
+const DeleteUserModal = ({ handleClose, open, userById, refetch }) => {
+  const { mutate, isLoading } = useMutation({
     mutationFn: (data) => deleteUser(data),
     onSuccess: (res) => {
       handleClose();
       toast.success(res.message);
+      refetch();
     },
   });
-
 
   const deleteHandler = () => {
     mutate(userById?.employeeNo);
@@ -35,7 +35,9 @@ const DeleteUserModal = ({ handleClose, open, userById }) => {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>User</Typography>
+          <Typography sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+            User
+          </Typography>
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Box sx={{ minWidth: 500 }}>
@@ -70,6 +72,7 @@ const DeleteUserModal = ({ handleClose, open, userById }) => {
                 className="btn-primary"
                 sx={{ py: "0.55rem", px: "1.5rem", mt: "1rem", color: "#fff" }}
                 onClick={deleteHandler}
+                loading={isLoading}
               >
                 Confirm
               </LoadingButton>

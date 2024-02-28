@@ -28,7 +28,7 @@ import axios from "axios";
 import { createTitle, updateTitle } from "@/api/titleApi/index";
 import { useMutation } from "react-query";
 
-const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
+const AddDesignation = ({ handleClose, open, titleRowSelected, refetch }) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const {
@@ -42,22 +42,22 @@ const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
     },
     resolver: yupResolver(titleSchema),
   });
-  const { mutate } = useMutation({
+  const { mutate, isLoading: createLoading } = useMutation({
     mutationFn: (data) => createTitle(data),
     onSuccess: (res) => {
-      res;
-      queryClient.invalidateQueries("getTitles");
       toast.success(res.message);
+
       handleClose();
+      refetch();
     },
   });
 
-  const { mutate: updateTitleData } = useMutation({
+  const { mutate: updateTitleData, isLoading: updateLoading } = useMutation({
     mutationFn: (data) => updateTitle(data),
     onSuccess: (res) => {
-      queryClient.invalidateQueries("getTitles");
       toast.success(res.message);
       handleClose();
+      refetch();
     },
   });
 
@@ -83,7 +83,6 @@ const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
       mutate(userData);
     }
   };
-
 
   return (
     <div>
@@ -143,6 +142,7 @@ const AddDesignation = ({ handleClose, open, titleRowSelected }) => {
                     mt: "1rem",
                     color: "#fff",
                   }}
+                  loading={updateLoading || createLoading}
                 >
                   Save
                 </LoadingButton>

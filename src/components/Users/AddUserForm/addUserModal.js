@@ -19,16 +19,18 @@ import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { checkPermissions } from "@/utils/utils";
+import { useMutation } from "react-query";
+import { createUser, updateUser } from "@/api/userApi";
 const AddUserModal = ({
   open,
   handleClose,
   userById,
   userTitles,
   userRoles,
+  refetch,
 }) => {
   const focusedInputRef = useRef(null);
   const dispatch = useDispatch();
-  
 
   const {
     watch,
@@ -96,6 +98,24 @@ const AddUserModal = ({
     }
   }, [userById, setValue]);
 
+  const { mutate,isLoading:createLoading } = useMutation({
+    mutationFn: (data) => createUser(data),
+    onSuccess: (res) => {
+      toast.success(res?.message);
+      handleClose();
+      refetch();
+    },
+  });
+
+  const { mutate: updateTitleData ,isLoading:updateLoading} = useMutation({
+    mutationFn: (data) => updateUser(data),
+    onSuccess: (res) => {
+      toast.success(res?.message);
+      handleClose();
+      refetch();
+    },
+  });
+
   const onSubmit = (values) => {
     const userData = {
       employeeNo: values?.employeeNo,
@@ -111,29 +131,10 @@ const AddUserModal = ({
     };
 
     if (userById?.id) {
-      axios
-        .patch(`http://localhost:5000/user`, userData)
-        .then((response) => {
-          toast.success(response?.data?.message);
-          handleClose();
-          fetchUserData();
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.message);
-          handleClose();
-        });
+      
+      updateTitleData(userData);
     } else {
-      axios
-        .post("http://localhost:5000/user", userData)
-        .then((response) => {
-          toast.success(response?.data?.message);
-          handleClose();
-          fetchUserData();
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.message);
-          handleClose();
-        });
+      mutate(userData);
     }
   };
 
@@ -406,6 +407,7 @@ const AddUserModal = ({
                 type="submit"
                 className="btn-primary"
                 sx={{ py: "0.55rem", px: "1.5rem", mt: "1rem", color: "#fff" }}
+                loading={updateLoading||createLoading}
               >
                 Save
               </LoadingButton>

@@ -32,7 +32,7 @@ const Users = () => {
     }
   }, [router, user]);
 
-  const { isLoading } = useQuery({
+  const { isLoading,refetch } = useQuery({
     queryKey: ["getUsers"],
     queryFn: getUser,
     onSuccess: (res) => {
@@ -63,7 +63,7 @@ const Users = () => {
       style={{ fontSize: 30, paddingTop: "30px" }}
     >
       {isLoading && <Loader />}
-      <Table row={users} roles={roles} titles={titles} />
+      <Table row={users} roles={roles} titles={titles} refetch={refetch}/>
     </div>
   );
 };

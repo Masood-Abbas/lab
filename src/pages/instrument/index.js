@@ -36,7 +36,7 @@ const Instruments = () => {
     deleteInstrumentModal,
     instrumentRowSelected,
   } = useSelector((state) => state.instrument);
-  const { isLoading } = useQuery({
+  const { isLoading,refetch } = useQuery({
     queryKey: ["getInstruments"],
     queryFn: getInstruments,
     onSuccess: (res) => {
@@ -69,6 +69,7 @@ const Instruments = () => {
             handleCloseDeleteInstrumentModal={handleCloseDeleteInstrumentModal}
             instrumentRowSelected={instrumentRowSelected}
             openInstrumentModal={openInstrumentModal}
+            refetch={refetch}
           />
         )}
       </>

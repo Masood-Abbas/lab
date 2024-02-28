@@ -103,7 +103,7 @@ export const userColumns = ({
         return (
           <Tooltip title={row?.employe_type}>
             <div className="wrap-text text-center">
-              {row?.employe_type === "active" ? "Active" : "InActive"}
+              {row?.employeeType === "active" ? "Active" : "InActive"}
             </div>
           </Tooltip>
         );

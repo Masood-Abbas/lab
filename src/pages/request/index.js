@@ -30,7 +30,7 @@ const Request = () => {
     }
   }, [router, user]);
 
-  const { isLoading } = useQuery({
+  const { isLoading,refetch } = useQuery({
     queryKey: ["getBasicDetailOfPatients"],
     queryFn: getBasicDetailOfPatient,
     onSuccess: (res) => {
@@ -67,6 +67,7 @@ const Request = () => {
             handleCloseDeleteInstrumentModal={handleCloseDeleteRequestModal}
             requestById={requestById}
             openRequestModal={openRequestModal}
+            refetch={refetch}
           />
         )}
       </>

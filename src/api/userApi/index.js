@@ -13,7 +13,7 @@ export function getUser() {
   });
 }
 
-export function create(params) {
+export function createUser(params) {
   return new Promise((resolve, reject) => {
     api
       .post("user", params)
@@ -27,9 +27,10 @@ export function create(params) {
 }
 
 export function updateUser(params) {
+  console.log(params)
   return new Promise((resolve, reject) => {
     api
-      .patch(`user/${params?.id}`, params)
+      .patch(`user`, params)
       .then((res) => {
         resolve(res.data);
       })

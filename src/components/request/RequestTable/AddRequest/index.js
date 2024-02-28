@@ -34,7 +34,7 @@ import {
 import { useQueryClient } from "react-query";
 import { setRequests } from "@/store/request/requestSlice";
 
-const AddRequest = ({ handleClose, open, requestById }) => {
+const AddRequest = ({ handleClose, open, requestById, refetch }) => {
   const queryClient = useQueryClient();
   const {
     register,
@@ -89,16 +89,9 @@ const AddRequest = ({ handleClose, open, requestById }) => {
   const { isLoading: createLoading, mutate } = useMutation({
     mutationFn: (data) => createBasicDetailOfPatient(data),
     onSuccess: (res) => {
-      axios
-        .get("http://localhost:5000/patient")
-        .then((response) => {
-          dispatch(setRequests(response));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      handleClose();
       toast.success(res.message);
+      handleClose();
+      refetch();
     },
     onError: (error) => {
       console.log(error);
@@ -109,17 +102,9 @@ const AddRequest = ({ handleClose, open, requestById }) => {
   const { isLoading: updateLoading, mutate: updateRequestData } = useMutation({
     mutationFn: (data) => updateRequest(data),
     onSuccess: (res) => {
-      axios
-        .get("http://localhost:5000/patient")
-        .then((response) => {
-          dispatch(setRequests(response));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
       handleClose();
-
       toast.success(res.message);
+      refetch();
     },
   });
 

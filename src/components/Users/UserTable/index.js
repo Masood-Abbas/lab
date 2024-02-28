@@ -16,7 +16,7 @@ import AddUserModal from "../AddUserForm/addUserModal";
 import { checkPermissions } from "@/utils/utils";
 import DeleteUserModal from "../AddUserForm/deleteUserModal";
 
-const Table = ({ row, roles, titles }) => {
+const Table = ({ row, roles, titles, refetch }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [openAddUserModal, setOpenAddUSerModal] = useState(false);
@@ -132,6 +132,7 @@ const Table = ({ row, roles, titles }) => {
           userById={userById}
           userTitles={titles}
           userRoles={roles}
+          refetch={refetch}
         />
       }
 
@@ -139,6 +140,7 @@ const Table = ({ row, roles, titles }) => {
         open={openDeleteUserModal}
         handleClose={handleCloseDeleteModal}
         userById={userById}
+        refetch={refetch}
       />
     </>
   );

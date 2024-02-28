@@ -16,7 +16,8 @@ const Table = ({
   handleCloseDeleteRoleModal,
   roleById,
   permissions,
-  openRoleModal
+  openRoleModal,
+  refetch
 }) => {
   const [sortModel, setSortModel] = useState([
     {
@@ -34,10 +35,6 @@ const Table = ({
     8,
     user?.roles[0]?.permissions
   );
-
-
- 
-
 
   const handleRoleModalClose = () => {    
     dispatch(setRoleModal(false));
@@ -72,6 +69,7 @@ const Table = ({
           handleClose={handleRoleModalClose}
           roleById={roleById}
           permissions={permissions}
+          refetch={refetch}
         />
       )}
       {deleteRoleModal && (
@@ -80,6 +78,7 @@ const Table = ({
           handleClose={handleCloseDeleteRoleModal}
           roleById={roleById}
           dispatch={dispatch}
+          refetch={refetch}
         />
       )}
     </>

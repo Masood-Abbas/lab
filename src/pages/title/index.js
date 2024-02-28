@@ -28,7 +28,7 @@ const Titles = () => {
     }
   }, [router, user]);
 
-  const { isLoading } = useQuery({
+  const { isLoading,refetch } = useQuery({
     queryKey: ["getTitles"],
     queryFn: getTitle,
     onSuccess: (res) => {
@@ -58,6 +58,7 @@ const Titles = () => {
             handleCloseDeleteTitleModal={handleCloseDeleteTitleModal}
             titleRowSelected={titleRowSelected}
             openTitleModal={openTitleModal}
+            refetch={refetch}
           />
         )}
       </>
