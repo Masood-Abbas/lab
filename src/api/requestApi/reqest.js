@@ -67,3 +67,30 @@ export function updateRequest(params) {
       });
   });
 }
+
+
+export function addBloodTest(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .post("bloodreport", params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+export function addBloodGlucoseTest(params) {
+  return new Promise((resolve, reject) => {
+    api
+      .post("glucosereport", params)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
