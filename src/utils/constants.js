@@ -11,8 +11,8 @@ export const imageExtensions = [
   "psd",
   "ai",
 ];
-
-export const laboratoryTests = ["Complete Blood Count (CBC)"];
+''
+export const laboratoryTests = ["Complete Blood Count (CBC)","Blood Glucose Test (BGC)"];
 
 export const FileOperationsEnum = {
   ADD_USER: "add_user",
