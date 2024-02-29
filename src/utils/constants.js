@@ -37,7 +37,7 @@ export const FileOperationsEnum = {
 
   ADD_REQUEST: "add_request",
   UPDATE_REQUEST: "update_request",
-  VIEW_REQUEST: "view_Instrument",
+  VIEW_REQUEST: "view_request",
   DELETE_REQUEST: "delete_request",
 };
 
