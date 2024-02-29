@@ -16,12 +16,20 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import BusinessIcon from "@mui/icons-material/Business";
 import StarsIcon from "@mui/icons-material/Stars";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import { checkPermissions } from "@/utils/utils";
+import { useSelector } from "react-redux";
 
 const Sidebar = (props) => {
   const router = useRouter();
 
   const { window, handleDrawerToggle, open, drawerWidth } = props;
-
+  const { user } = useSelector((state) => state.auth);
+  const viewUSer = checkPermissions(4, user?.roles[0]?.permissions);
+  const viewTitle = checkPermissions(10, user?.roles[0]?.permissions);
+  const viewRole = checkPermissions(7, user?.roles[0]?.permissions);
+  const viewInstrument = checkPermissions(14, user?.roles[0]?.permissions);
+  const viewRequest = checkPermissions(18, user?.roles[0]?.permissions);
+  const viewApprovedRequest = checkPermissions(19, user?.roles[0]?.permissions);
   const styles = {
     fontSize: "1.375rem",
   };
@@ -54,139 +62,152 @@ const Sidebar = (props) => {
         </Link>
       </List>
       <Divider />
-      <List>
-        <Link href="/users" passHref>
-          <ListItem disablePadding className="truncate-text">
-            <ListItemButton
-              className={router?.pathname === "/users" ? "active" : " "}
-              sx={styles}
-            >
-              <ListItemIcon>
-                <Person2Icon
-                  className={
-                    router?.pathname === "/users"
-                      ? "active-icon"
-                      : "inactive-icon"
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary="Users" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
 
-      <List>
-        <Link href="/title" passHref>
-          <ListItem disablePadding className="truncate-text">
-            <ListItemButton
-              className={router?.pathname === "/title" ? "active" : ""}
-              sx={styles}
-            >
-              <ListItemIcon>
-                <StarsIcon
-                  className={
-                    router?.pathname === "/title"
-                      ? "active-icon"
-                      : "inactive-icon"
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary="Title" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
+      {viewUSer && (
+        <List>
+          <Link href="/users" passHref>
+            <ListItem disablePadding className="truncate-text">
+              <ListItemButton
+                className={router?.pathname === "/users" ? "active" : " "}
+                sx={styles}
+              >
+                <ListItemIcon>
+                  <Person2Icon
+                    className={
+                      router?.pathname === "/users"
+                        ? "active-icon"
+                        : "inactive-icon"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
+      )}
 
-      <List>
-        <Link href="/role" passHref>
-          <ListItem disablePadding className="truncate-text">
-            <ListItemButton
-              className={router?.pathname === "/role" ? "active" : ""}
-              sx={styles}
-            >
-              <ListItemIcon>
-                <SiHomebridge
-                  className={
-                    router?.pathname === "/role"
-                      ? "active-icon"
-                      : "inactive-icon"
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary="Role" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
+      {viewTitle && (
+        <List>
+          <Link href="/title" passHref>
+            <ListItem disablePadding className="truncate-text">
+              <ListItemButton
+                className={router?.pathname === "/title" ? "active" : ""}
+                sx={styles}
+              >
+                <ListItemIcon>
+                  <StarsIcon
+                    className={
+                      router?.pathname === "/title"
+                        ? "active-icon"
+                        : "inactive-icon"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Title" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
+      )}
 
-      <List>
-        <Link href="/instrument" passHref>
-          <ListItem disablePadding className="truncate-text">
-            <ListItemButton
-              className={router?.pathname === "/instrument" ? "active" : ""}
-              sx={styles}
-            >
-              <ListItemIcon>
-                <BuildIcon
-                  className={
-                    router?.pathname === "/instrument"
-                      ? "active-icon"
-                      : "inactive-icon"
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary="Instrument" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
+      {viewRole && (
+        <List>
+          <Link href="/role" passHref>
+            <ListItem disablePadding className="truncate-text">
+              <ListItemButton
+                className={router?.pathname === "/role" ? "active" : ""}
+                sx={styles}
+              >
+                <ListItemIcon>
+                  <SiHomebridge
+                    className={
+                      router?.pathname === "/role"
+                        ? "active-icon"
+                        : "inactive-icon"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Role" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
+      )}
 
-      <List>
-        <Link href="/request" passHref>
-          <ListItem disablePadding className="truncate-text">
-            <ListItemButton
-              className={router?.pathname === "/request" ? "active" : ""}
-              sx={styles}
-            >
-              <ListItemIcon>
-                <CreateNewFolderIcon
-                  className={
-                    router?.pathname === "/request"
-                      ? "active-icon"
-                      : "inactive-icon"
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary="Request" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
+      {viewInstrument && (
+        <List>
+          <Link href="/instrument" passHref>
+            <ListItem disablePadding className="truncate-text">
+              <ListItemButton
+                className={router?.pathname === "/instrument" ? "active" : ""}
+                sx={styles}
+              >
+                <ListItemIcon>
+                  <BuildIcon
+                    className={
+                      router?.pathname === "/instrument"
+                        ? "active-icon"
+                        : "inactive-icon"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Instrument" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
+      )}
 
-      <List>
-        <Link href="/approved-requests" passHref>
-          <ListItem disablePadding className="truncate-text">
-            <ListItemButton
-              className={
-                router?.pathname === "/approved-requests" ? "active" : ""
-              }
-              sx={styles}
-            >
-              <ListItemIcon>
-                <AssignmentTurnedInIcon
-                  className={
-                    router?.pathname === "/approved-requests"
-                      ? "active-icon"
-                      : "inactive-icon"
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText primary="Approved Requests" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
+      {viewRequest && (
+        <List>
+          <Link href="/request" passHref>
+            <ListItem disablePadding className="truncate-text">
+              <ListItemButton
+                className={router?.pathname === "/request" ? "active" : ""}
+                sx={styles}
+              >
+                <ListItemIcon>
+                  <CreateNewFolderIcon
+                    className={
+                      router?.pathname === "/request"
+                        ? "active-icon"
+                        : "inactive-icon"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Request" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
+      )}
+
+      {viewApprovedRequest && (
+        <List>
+          <Link href="/approved-requests" passHref>
+            <ListItem disablePadding className="truncate-text">
+              <ListItemButton
+                className={
+                  router?.pathname === "/approved-requests" ? "active" : ""
+                }
+                sx={styles}
+              >
+                <ListItemIcon>
+                  <AssignmentTurnedInIcon
+                    className={
+                      router?.pathname === "/approved-requests"
+                        ? "active-icon"
+                        : "inactive-icon"
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Approved Requests" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
+      )}
     </div>
   );
 
