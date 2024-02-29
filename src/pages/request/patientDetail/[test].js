@@ -27,34 +27,24 @@ const Test = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues:
-      patientDetail[0]?.test === "Blood Test"
-        ? {
-            hemoglobin: "",
-            wbcCount: "",
-            lekocyte: "",
-            bloodSedimentationRate: "",
-            trombositeAmount: "",
-            hematocrite: "",
-            erythrocyte: "",
-            plateletCount: "",
-            mcv: "",
-            mch: "",
-            mchc: "",
-            eosinophil: "",
-            basophil: "",
-            neutrophil: "",
-            monocytes: "",
-            lymphocytes: "",
-          }
-        : {
-            fastingBloodSugar: "",
-            postprandialBloodSugar: "",
-            randomBloodSugar: "",
-            cholesterol: "",
-            insulinLevel: "",
-            hba1c: "",
-          },
+    defaultValues: {
+      hemoglobin: "",
+      wbcCount: "",
+      lekocyte: "",
+      bloodSedimentationRate: "",
+      trombositeAmount: "",
+      hematocrite: "",
+      erythrocyte: "",
+      plateletCount: "",
+      mcv: "",
+      mch: "",
+      mchc: "",
+      eosinophil: "",
+      basophil: "",
+      neutrophil: "",
+      monocytes: "",
+      lymphocytes: "",
+    },
   });
 
   const router = useRouter();
@@ -82,8 +72,6 @@ const Test = () => {
     },
   });
 
-  console.log(patientDetail[0]?.test);
-
   useEffect(() => {
     mutate(router?.query?.test);
   }, [router, mutate]);
@@ -92,7 +80,6 @@ const Test = () => {
     useMutation({
       mutationFn: (data) => addBloodTest(data),
       onSuccess: (response) => {
-        console.log(response);
         const requestData = {
           id: patientDetail[0]?.id,
           reportStatus: "Done",
@@ -112,7 +99,7 @@ const Test = () => {
         id: patientDetail[0]?.id,
         reportStatus: "Done",
       };
-      console.log(response);
+
       toast.success(response?.data?.message);
       router?.push("/request");
       mutateUpdateStatus(requestData);
@@ -174,263 +161,182 @@ const Test = () => {
               {patientDetail[0]?.test}
             </Typography>
           </Grid>
-
-          {patientDetail[0]?.test === "Blood Test" && (
-            <>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="Hemoglobin"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("hemoglobin")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="wbcCount"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("wbcCount")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="lekocyte"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("lekocyte")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="bloodSedimentationRate"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("bloodSedimentationRate")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="trombositeAmount"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("trombositeAmount")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="hematocrite"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("hematocrite")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="erythrocyte"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("erythrocyte")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="plateletCount"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("plateletCount")}
-                />
-              </Grid>{" "}
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="mcv"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("mcv")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="mch"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("mch")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="mchc"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("mchc")}
-                />
-              </Grid>{" "}
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="eosinophil"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("eosinophil")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="basophil"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("basophil")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="neutrophil"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("neutrophil")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="monocytes"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("monocytes")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="lymphocytes"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("lymphocytes")}
-                />
-              </Grid>
-            </>
-          )}
-
-          {patientDetail[0]?.test === "Blood Glucose Test (BGC)" && (
-            <>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="Fasting Blood Sugar"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("fastingBloodSugar")}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="Postprandial Blood Sugar"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("postprandialBloodSugar")}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="Random Blood Sugar"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("randomBloodSugar")}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="Cholesterol Level"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("cholesterol")}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="Insulin Level"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("insulinLevel")}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  sx={{ mb: 1 }}
-                  label="HbA1c"
-                  inputProps={{
-                    autoComplete: "none",
-                  }}
-                  fullWidth
-                  {...register("hba1c")}
-                />
-              </Grid>
-            </>
-          )}
-
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="Hemoglobin"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("hemoglobin")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="wbcCount"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("wbcCount")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="lekocyte"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("lekocyte")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="bloodSedimentationRate"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("bloodSedimentationRate")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="trombositeAmount"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("trombositeAmount")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="hematocrite"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("hematocrite")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="erythrocyte"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("erythrocyte")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="plateletCount"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("plateletCount")}
+            />
+          </Grid>{" "}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="mcv"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("mcv")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="mch"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("mch")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="mchc"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("mchc")}
+            />
+          </Grid>{" "}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="eosinophil"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("eosinophil")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="basophil"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("basophil")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="neutrophil"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("neutrophil")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="monocytes"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("monocytes")}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              sx={{ mb: 1 }}
+              label="lymphocytes"
+              inputProps={{
+                autoComplete: "none",
+              }}
+              fullWidth
+              {...register("lymphocytes")}
+            />
+          </Grid>
           <Grid item xs={12} sm={12}>
             <Button
               sx={{ float: "right" }}
